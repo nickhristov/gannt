@@ -1,0 +1,40 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:f='urn:import:com.fb.workplan.client'
+        >
+
+    <ui:style>
+
+        .description {
+            position:absolute;
+            left:1.5em;
+            right:0;
+            top:0;
+            bottom:0;
+            cursor: text;
+            outline: none;
+            min-height: 22px;
+            line-height: 22px;
+            height: auto !important;
+            -webkit-user-modify: read-write;
+            word-wrap: break-word;
+            -webkit-nbsp-mode: space;
+            -webkit-line-break: after-white-space;
+            overflow: hidden;
+        }
+
+        .description:focus {
+            background-color: #fff8dc;
+        }
+
+        .wrapper {
+            position:relative;
+            min-width:40em;
+        }
+
+    </ui:style>
+    <g:FlowPanel styleName="{style.wrapper}">
+        <g:CheckBox ui:field="cb"/>
+        <f:ContentEditable ui:field="description" styleName="{style.description}"/>
+    </g:FlowPanel>
+</ui:UiBinder>

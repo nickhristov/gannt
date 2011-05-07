@@ -1,0 +1,24 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+    <ui:style >
+        
+        .inner {
+            background-color: rgba(222, 243, 248, 0.80);
+            margin: 1px;
+            border-radius: 3px;
+            height: 16px;
+        }
+
+        .label {
+            position:absolute;
+            top:0;
+            left:47%;
+            color: white;
+        }
+
+    </ui:style>
+    <g:FlowPanel stylePrimaryName="floater">
+        <g:SimplePanel ui:field="inner" stylePrimaryName="{style.inner}"/>
+        <g:SimplePanel ui:field="percentLabel" stylePrimaryName="{style.label}"/>
+    </g:FlowPanel>
+</ui:UiBinder>
