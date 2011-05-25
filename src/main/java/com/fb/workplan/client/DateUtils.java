@@ -16,7 +16,8 @@ public class DateUtils {
         result.setMinutes(0);
         result.setHours(0);
         result.setSeconds(0);
-        return new Date((result.getTime() / 1000) * 1000);  // truncate milliseconds
+        result.setTime((result.getTime() / 1000) * 1000);  // truncate milliseconds
+		return result;
     }
 
     public static int dayOfMonth(Date date) {
@@ -36,8 +37,16 @@ public class DateUtils {
     }
 
     public static List<Date> getDatesForMonth(Date month) {
-        return null;  //To change body of created methods use File | Settings | File Templates.
-    }
+    	Date startOfMonth = beginningOfMonth(month);
+		Date nextMonth = rollMonth(startOfMonth, 1);
+		Date tdate = startOfMonth;
+		ArrayList<Date> result = new ArrayList<Date>(31);
+		while(tdate.before(nextMonth)) {
+			result.add(tdate);
+			tdate = rollMonth(tdate, 1);
+		}
+		return result;
+	}
     
     public static List<Date> getMondaysForMonth(Date month) {
         List<Date> mondays = new ArrayList<Date>(5);
@@ -103,4 +112,12 @@ public class DateUtils {
 
     }
 
+	public static Date midnight(Date date) {
+		Date result = new Date(date.getTime());
+        result.setMinutes(0);
+        result.setHours(0);
+        result.setSeconds(0);
+		result.setTime((result.getTime() / 1000) * 1000); // truncate milliseconds
+		return result;
+	}
 }

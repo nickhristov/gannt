@@ -1,7 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a416df9e-265f-450c-a1f3-026e4f9b4245" name="Default" comment="" />
+    <list default="true" id="a416df9e-265f-450c-a1f3-026e4f9b4245" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/AnchorCell.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/FixedCompositeCell.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/FixedLabelAnchorCell.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/PropertyDidChangeEvent.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/PropertyDidChangeEventHandler.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/taskData.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/google/gwt/user/cellview/client/CellStyleProvider.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/google/gwt/user/cellview/client/ContentEditableCell.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/Sinker.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/TaskChangeEvent.java" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/google/gwt/user/cellview/client/IndentData.java" afterPath="$PROJECT_DIR$/src/main/java/com/google/gwt/user/cellview/client/TreeContext.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gannt.iml" afterPath="$PROJECT_DIR$/gannt.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gannt.ipr" afterPath="$PROJECT_DIR$/gannt.ipr" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gannt.iws" afterPath="$PROJECT_DIR$/gannt.iws" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/DateUtils.java" afterPath="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/DateUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/TaskWidgetData.java" afterPath="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/TaskWidgetData.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/gannt.java" afterPath="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/gannt.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/GanntCalendarController.java" afterPath="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/GanntCalendarController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/GanntFloaterCell.java" afterPath="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/GanntFloaterCell.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/GanntGridController.java" afterPath="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/GanntGridController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/GanntWidget.java" afterPath="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/GanntWidget.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/google/gwt/user/cellview/client/CellTreeTable.java" afterPath="$PROJECT_DIR$/src/main/java/com/google/gwt/user/cellview/client/CellTreeTable.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/google/gwt/user/cellview/client/CellTreeTableModelManager.java" afterPath="$PROJECT_DIR$/src/main/java/com/google/gwt/user/cellview/client/CellTreeTableModelManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/gannt.css" afterPath="$PROJECT_DIR$/src/main/webapp/gannt.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/com/google/gwt/user/cellview/client/CellTreeTableModelManagerTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/google/gwt/user/cellview/client/CellTreeTableModelManagerTest.java" />
+    </list>
     <ignored path="gannt.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -11,8 +38,8 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
-  <component name="CoverageDataManager" choice="1">
-    <SUITE FILE_PATH="coverage/gannt$All_tests.ic" NAME="All tests Coverage Results" MODIFIED="1304607711390" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="true" />
+  <component name="CoverageDataManager" choice="3">
+    <SUITE FILE_PATH="coverage/gannt$All_tests.ic" NAME="All tests Coverage Results" MODIFIED="1305037648616" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="true" />
     <SUITE FILE_PATH="coverage/gannt$Run_all_tests.ic" NAME="Run all tests Coverage Results" MODIFIED="1304119882093" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="true" />
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -24,7 +51,33 @@
   </component>
   <component name="DebuggerManager">
     <line_breakpoints>
-      <breakpoint url="file://$PROJECT_DIR$/src/test/java/com/google/gwt/user/cellview/client/CellTreeTableModelManagerTest.java" line="64" class="com.google.gwt.user.cellview.client.CellTreeTableModelManagerTest" package="com.google.gwt.user.cellview.client">
+      <breakpoint url="file://$PROJECT_DIR$/src/main/java/com/google/gwt/user/cellview/client/CellTreeTable.java" line="374" class="com.google.gwt.user.cellview.client.CellTreeTable" package="com.google.gwt.user.cellview.client">
+        <option name="ENABLED" value="false" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-user/2.3.0/gwt-user-2.3.0-sources.jar!/com/google/gwt/cell/client/EditTextCell.java" line="170" class="com.google.gwt.cell.client.EditTextCell" package="com.google.gwt.cell.client">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-user/2.3.0/gwt-user-2.3.0-sources.jar!/com/google/gwt/cell/client/CompositeCell.java" line="170" class="com.google.gwt.cell.client.CompositeCell" package="com.google.gwt.cell.client">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -78,31 +131,42 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="GanntWidget.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/GanntWidget.java">
+      <file leaf-file-name="FixedCompositeCell.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/fb/workplan/client/FixedCompositeCell.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="50" selection-start="1122" selection-end="1122" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GanntCalendarController.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/GanntCalendarController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="220" column="36" selection-start="9140" selection-end="9158" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CellTreeTable.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/google/gwt/user/cellview/client/CellTreeTable.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="475" column="0" selection-start="18306" selection-end="18306" vertical-scroll-proportion="0.41525424">
+            <state line="11" column="29" selection-start="318" selection-end="336" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CellTreeTable.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/google/gwt/user/cellview/client/CellTreeTable.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="66" column="37" selection-start="2416" selection-end="2416" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ContentEditableCell.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/google/gwt/user/cellview/client/ContentEditableCell.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="42" column="22" selection-start="1396" selection-end="1396" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GanntGridController.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/GanntGridController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="118" column="72" selection-start="4701" selection-end="4701" vertical-scroll-proportion="0.16775599">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -121,22 +185,37 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/google/gwt/user/cellview/client/FlexHeaderRow.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/DateUtils.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/DateFormatUtils.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/google/gwt/user/cellview/client/Visitor.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/google/gwt/user/cellview/client/DataNode.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/google/gwt/user/cellview/client/IndentData.java" />
-        <option value="$PROJECT_DIR$/src/test/java/com/google/gwt/user/cellview/client/CellTreeTableModelManagerTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/google/gwt/user/cellview/client/FlexHeader.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/gannt.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/GanntFloaterCell.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/gannt.css" />
-        <option value="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/GanntGridController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/GanntWidget.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/GanntCalendarController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/google/gwt/user/cellview/client/CellStyleProvider.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/google/gwt/user/cellview/client/TreeContext.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/google/gwt/user/cellview/client/CellTreeTableModelManager.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/google/gwt/user/cellview/client/CellTreeTableModelManagerTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/GanntFloaterCell.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$USER_HOME$/.m2/settings.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/TaskChangeEvent.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/PropertyChangeEventHandler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/PropertyChangeEvent.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/PropertyWillChangeEventHandler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/PropertyWillChangeEvent.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/PropertyDidChangeEvent.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/PropertyDidChangeEventHandler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/GanntCalendarController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/gannt.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/DateUtils.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/TaskWidgetData.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/GanntWidget.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/taskData.json" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/FixedLabelAnchorCell.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/AnchorCell.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/TaskDescriptionCell.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/FixedCompositeCell.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/google/gwt/user/cellview/client/CellTreeTable.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/gannt.css" />
+        <option value="$PROJECT_DIR$/src/main/java/com/google/gwt/user/cellview/client/ContentEditableCell.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/GanntGridController.java" />
       </list>
     </option>
   </component>
@@ -159,13 +238,13 @@
       <profile-state>
         <expanded-state>
           <State>
+            <id />
+          </State>
+          <State>
             <id>Code style issues</id>
           </State>
           <State>
-            <id>Declaration Redundancy</id>
-          </State>
-          <State>
-            <id>Inspections</id>
+            <id>Declaration redundancy</id>
           </State>
           <State>
             <id>JavaScript</id>
@@ -173,13 +252,13 @@
         </expanded-state>
         <selected-state>
           <State>
-            <id>Code maturity issues</id>
+            <id>UNUSED_SYMBOL</id>
           </State>
         </selected-state>
       </profile-state>
     </entry>
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -230,8 +309,22 @@
               <option name="myItemId" value="com" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
             </PATH_ELEMENT>
+          </PATH>
+          <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="google.gwt.user.cellview.client" />
+              <option name="myItemId" value="gannt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gannt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fb.workplan" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -248,9 +341,18 @@
               <option name="myItemId" value="com" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fb.workplan" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -262,19 +364,18 @@
         </subPane>
       </pane>
       <pane id="Favorites" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="TestNG" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
-    <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors.Java" />
+    <property name="options.lastSelected" value="reference.projectsettings.compiler.javacompiler" />
     <property name="project.structure.side.proportion" value="0.25684607" />
     <property name="GoToClass.includeJavaFiles" value="false" />
     <property name="MemberChooser.copyJavadoc" value="false" />
@@ -290,6 +391,9 @@
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
       <recent name="com.google.gwt.user.cellview.client" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="" />
     </key>
     <key name="GwtCreateUiBinderDialog.RecentRootElementType">
       <recent name="com.google.gwt.user.client.ui.FlowPanel" />
@@ -307,7 +411,7 @@
       <recent name="com.google.gwt.user.cellview.client" />
     </key>
   </component>
-  <component name="RunManager" selected="GWT Configuration.Test">
+  <component name="RunManager" selected="GWT Configuration.View gannt">
     <configuration default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
       <option name="SERVER_MODE" value="false" />
@@ -318,6 +422,7 @@
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
         <option name="Maven.BeforeRunTask" enabled="false" />
+        <option name="PhingTarget" enabled="false" />
       </method>
     </configuration>
     <configuration default="true" type="FlexUnitRunConfigurationType" factoryName="FlexUnit" adl_options="" air_descriptor_path="" air_program_params="" air_publisher_id="" air_root_dir_path="" air_run_mode="AppDescriptor" browser_family="FIREFOX" class_name="" debugger_sdk="Module SDK" html_or_swf_file_path="" launcher_type="OSDefault" main_class_name="" method_name="" module_name="" output_log_level="" package_name="" player_path="/Applications/Flash Player.app/Contents/MacOS/Flash Player" port="0" run_mode="HtmlOrSwfFile" run_trusted="false" scope="Class" socket_policy_port="0" url_to_launch="http://">
@@ -326,6 +431,7 @@
         <option name="BuildArtifacts" enabled="false" />
         <option name="Make" enabled="true" />
         <option name="Maven.BeforeRunTask" enabled="false" />
+        <option name="PhingTarget" enabled="false" />
       </method>
     </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
@@ -344,6 +450,7 @@
         <option name="BuildArtifacts" enabled="false" />
         <option name="Make" enabled="true" />
         <option name="Maven.BeforeRunTask" enabled="false" />
+        <option name="PhingTarget" enabled="false" />
       </method>
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
@@ -377,6 +484,7 @@
         <option name="BuildArtifacts" enabled="false" />
         <option name="Make" enabled="true" />
         <option name="Maven.BeforeRunTask" enabled="false" />
+        <option name="PhingTarget" enabled="false" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -397,6 +505,7 @@
         <option name="BuildArtifacts" enabled="false" />
         <option name="Make" enabled="true" />
         <option name="Maven.BeforeRunTask" enabled="false" />
+        <option name="PhingTarget" enabled="false" />
       </method>
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
@@ -423,6 +532,7 @@
         <option name="BuildArtifacts" enabled="false" />
         <option name="Make" enabled="true" />
         <option name="Maven.BeforeRunTask" enabled="false" />
+        <option name="PhingTarget" enabled="false" />
       </method>
     </configuration>
     <configuration default="true" type="GWT.ConfigurationType" factoryName="GWT Configuration">
@@ -432,9 +542,10 @@
         <option name="BuildArtifacts" enabled="false" />
         <option name="Make" enabled="true" />
         <option name="Maven.BeforeRunTask" enabled="false" />
+        <option name="PhingTarget" enabled="false" />
       </method>
     </configuration>
-    <configuration default="false" name="Test" type="GWT.ConfigurationType" factoryName="GWT Configuration">
+    <configuration default="false" name="View gannt" type="GWT.ConfigurationType" factoryName="GWT Configuration">
       <module name="gannt" />
       <option name="VM_PARAMETERS" value="-ea -Xmx256m" />
       <option name="RUN_PAGE" value="gannt.html" />
@@ -486,7 +597,7 @@
       <method />
     </configuration>
     <list size="2">
-      <item index="0" class="java.lang.String" itemvalue="GWT Configuration.Test" />
+      <item index="0" class="java.lang.String" itemvalue="GWT Configuration.View gannt" />
       <item index="1" class="java.lang.String" itemvalue="TestNG.All tests" />
     </list>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
@@ -496,7 +607,7 @@
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
   <component name="StructureViewFactory">
-    <option name="ACTIVE_ACTIONS" value="SHOW_NON_PUBLIC,SHOW_FIELDS" />
+    <option name="ACTIVE_ACTIONS" value="SHOW_INHERITED,SHOW_FIELDS" />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -507,28 +618,29 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="14" y="23" width="1680" height="973" extended-state="0" />
+    <frame x="0" y="22" width="1680" height="973" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3282532" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39742085" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3282532" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3270809" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24831392" sideWeight="0.54513484" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2196319" sideWeight="0.14067996" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Amazon EC2" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24723926" sideWeight="0.6025791" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33059788" sideWeight="0.0" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2196319" sideWeight="0.8499414" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32942554" sideWeight="0.0" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Phing Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3270809" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -571,128 +683,217 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-servlet/2.2.0/gwt-servlet-2.2.0-sources.jar!/com/google/gwt/user/cellview/client/CellTable.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/GanntWidgetController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1254" column="31" selection-start="38760" selection-end="38760" vertical-scroll-proportion="0.5795207">
-          <folding>
-            <marker date="1297391910000" expanded="true" signature="57914:57952" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-user/2.2.0/gwt-user-2.2.0-sources.jar!/com/google/gwt/user/cellview/client/Column.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="9" selection-start="2023" selection-end="2023" vertical-scroll-proportion="0.7484536">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-servlet/2.2.0/gwt-servlet-2.2.0-sources.jar!/com/google/gwt/cell/client/AbstractEditableCell.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="66" selection-start="1208" selection-end="1208" vertical-scroll-proportion="-1.6453608">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fb/workplan/client/gannt.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="65" selection-start="562" selection-end="562" vertical-scroll-proportion="0.36228815">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/gannt.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="68" column="0" selection-start="1180" selection-end="1180" vertical-scroll-proportion="0.5298969">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/GanntFloaterCell.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="178" column="123" selection-start="6548" selection-end="6562" vertical-scroll-proportion="0.80508476">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-user/2.2.0/gwt-user-2.2.0-sources.jar!/com/google/gwt/cell/client/DatePickerCell.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="175" column="28" selection-start="6376" selection-end="6390" vertical-scroll-proportion="0.25054467">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-servlet/2.2.0/gwt-servlet-2.2.0-sources.jar!/com/google/gwt/cell/client/FieldUpdater.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="17" selection-start="856" selection-end="856" vertical-scroll-proportion="0.3340206">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-user/2.2.0/gwt-user-2.2.0.jar!/com/google/gwt/user/cellview/client/Column.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="134" column="28" selection-start="3979" selection-end="3979" vertical-scroll-proportion="0.08496732">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-user/2.2.0/gwt-user-2.2.0-sources.jar!/com/google/gwt/event/logical/shared/ValueChangeEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="99" column="12" selection-start="2975" selection-end="2975" vertical-scroll-proportion="0.5631068">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/TaskChangeEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="46" selection-start="179" selection-end="195" vertical-scroll-proportion="0.09223301">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/GanntGridController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="11" selection-start="852" selection-end="852" vertical-scroll-proportion="0.23300971">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/GanntWidget.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="50" selection-start="1122" selection-end="1122" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="2" column="13" selection-start="54" selection-end="54" vertical-scroll-proportion="0.06998158" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/GanntCalendarController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="220" column="36" selection-start="9140" selection-end="9158" vertical-scroll-proportion="0.0">
+        <state line="63" column="38" selection-start="2122" selection-end="2122" vertical-scroll-proportion="0.49364406" />
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-servlet/2.3.0/gwt-servlet-2.3.0-sources.jar!/com/google/gwt/event/dom/client/DomEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="22" selection-start="1149" selection-end="1149" vertical-scroll-proportion="-0.95388347" />
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-user/2.3.0/gwt-user-2.3.0-sources.jar!/com/google/gwt/event/dom/client/KeyEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="66" selection-start="1025" selection-end="1025" vertical-scroll-proportion="0.31553397" />
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-user/2.3.0/gwt-user-2.3.0.jar!/com/google/gwt/cell/client/Cell.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="26" selection-start="1121" selection-end="1121" vertical-scroll-proportion="0.5622688" />
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-servlet/2.3.0/gwt-servlet-2.3.0-sources.jar!/com/google/gwt/user/cellview/client/TextColumn.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="22" selection-start="844" selection-end="844" vertical-scroll-proportion="0.5764563" />
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-user/2.3.0/gwt-user-2.3.0.jar!/com/google/gwt/user/cellview/client/Column.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="110" column="14" selection-start="3216" selection-end="3216" vertical-scroll-proportion="0.33195877" />
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-servlet/2.3.0/gwt-servlet-2.3.0-sources.jar!/com/google/gwt/cell/client/EditTextCell.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="0" selection-start="1215" selection-end="1215" vertical-scroll-proportion="0.416122" />
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-user/2.3.0/gwt-user-2.3.0-sources.jar!/com/google/gwt/cell/client/EditTextCell.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="179" column="43" selection-start="5423" selection-end="5442" vertical-scroll-proportion="0.80206186" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fb/workplan/client/DateUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="22" selection-start="1356" selection-end="1356" vertical-scroll-proportion="1.0376214" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fb/workplan/client/gannt.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="89" column="21" selection-start="3385" selection-end="3385" vertical-scroll-proportion="0.023058252" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fb/workplan/client/prototype/GanntWidget.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fb/workplan/client/TaskWidgetData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="124" column="35" selection-start="3328" selection-end="3328" vertical-scroll-proportion="0.6845361" />
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-user/2.3.0/gwt-user-2.3.0-sources.jar!/com/google/gwt/cell/client/AbstractCell.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="57" column="9" selection-start="1803" selection-end="1803" vertical-scroll-proportion="0.33195877" />
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-user/2.3.0/gwt-user-2.3.0-sources.jar!/com/google/gwt/event/dom/client/MouseDownEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="36" selection-start="1217" selection-end="1241" vertical-scroll-proportion="0.21443298" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fb/workplan/client/AnchorCell.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="52" selection-start="737" selection-end="737" vertical-scroll-proportion="0.3329223" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fb/workplan/client/FixedLabelAnchorCell.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="45" selection-start="134" selection-end="134" vertical-scroll-proportion="0.09223301" />
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-servlet/2.3.0/gwt-servlet-2.3.0-sources.jar!/com/google/gwt/cell/client/HasCell.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="17" selection-start="956" selection-end="956" vertical-scroll-proportion="0.30825242" />
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-user/2.3.0/gwt-user-2.3.0-sources.jar!/com/google/gwt/cell/client/HasCell.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="30" selection-start="1009" selection-end="1009" vertical-scroll-proportion="0.60733944" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fb/workplan/client/taskData.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="59" selection-start="290" selection-end="290" vertical-scroll-proportion="0.20752427" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/GanntWidget.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="187" column="0" selection-start="6913" selection-end="6913" vertical-scroll-proportion="0.1701603" />
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-servlet/2.3.0/gwt-servlet-2.3.0-sources.jar!/com/google/gwt/user/cellview/client/Column.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="22" selection-start="1459" selection-end="1459" vertical-scroll-proportion="0.9761468">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/google/gwt/user/cellview/client/CellTreeTableModelManager.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-servlet/2.3.0/gwt-servlet-2.3.0-sources.jar!/com/google/gwt/cell/client/Cell.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="66" selection-start="636" selection-end="636" vertical-scroll-proportion="0.6723164">
+        <state line="179" column="7" selection-start="5605" selection-end="5605" vertical-scroll-proportion="0.68659794">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/google/gwt/user/cellview/client/CellTreeTable.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-servlet/2.3.0/gwt-servlet-2.3.0-sources.jar!/com/google/gwt/cell/client/CompositeCell.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="475" column="0" selection-start="18306" selection-end="18306" vertical-scroll-proportion="0.41525424">
+        <state line="15" column="34" selection-start="602" selection-end="628" vertical-scroll-proportion="-0.08278867">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-user/2.3.0/gwt-user-2.3.0-sources.jar!/com/google/gwt/cell/client/CompositeCell.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="185" column="20" selection-start="5630" selection-end="5630" vertical-scroll-proportion="0.19538835">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fb/workplan/client/FixedCompositeCell.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="29" selection-start="318" selection-end="336" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/gannt.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="148" column="12" selection-start="2306" selection-end="2306" vertical-scroll-proportion="0.88247424">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-servlet/2.3.0/gwt-servlet-2.3.0-sources.jar!/com/google/gwt/cell/client/AbstractCell.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="129" column="0" selection-start="3764" selection-end="3831" vertical-scroll-proportion="4.7402062">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/google/gwt/user/cellview/client/CellTreeTable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="66" column="37" selection-start="2416" selection-end="2416" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/google/gwt/user/cellview/client/ContentEditableCell.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="42" column="22" selection-start="1396" selection-end="1396" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fb/workplan/client/release/GanntGridController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="118" column="72" selection-start="4701" selection-end="4701" vertical-scroll-proportion="0.16775599">
+          <folding />
+        </state>
+      </provider>
+    </entry>
   </component>
   <component name="masterDetails">
     <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <last-edited>gannt:war</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+                <option value="0.5" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
       <state key="Copyright.UI">
         <settings>
           <splitter-proportions />
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>Android</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
         </settings>
       </state>
       <state key="GlobalLibrariesConfigurable.UI">
@@ -701,6 +902,43 @@
             <option name="proportions">
               <list>
                 <option value="0.25684607" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.6</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>gannt</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.25684607" />
+                <option value="0.5" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Maven: com.google.guava:guava:r08</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
               </list>
             </option>
           </splitter-proportions>

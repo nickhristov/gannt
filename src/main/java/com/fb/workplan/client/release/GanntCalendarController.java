@@ -3,19 +3,16 @@ package com.fb.workplan.client.release;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import com.fb.workplan.client.DateFormatUtils;
 import com.fb.workplan.client.DateUtils;
-import com.fb.workplan.client.GanntFloater;
+import com.fb.workplan.client.PropertyDidChangeEvent;
+import com.fb.workplan.client.PropertyDidChangeEventHandler;
 import com.fb.workplan.client.TaskWidgetData;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.TextCell;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.cellview.client.CellTreeTable;
 import com.google.gwt.user.cellview.client.Column;
@@ -34,9 +31,8 @@ class GanntCalendarController {
         this.displayModel = displayModel;
         chartType = ChartType.WEEKLY;
         textCell = new TextCell();
-        floaterMap = new HashMap<TaskWidgetData, GanntFloater>();
-
-        manager.addHandler(ValueChangeEvent.getType(), refreshTableOnTaskChange);
+        renderedMonths = new ArrayList<Date>(12*2); // two years
+        manager.addHandler(PropertyDidChangeEvent.getType(), refreshTableOnTaskChange);
     }
 
     void updateCalendar() {
@@ -55,6 +51,66 @@ class GanntCalendarController {
 
     private int getMonthDiff(Date minDate, Date maxDate) {
         return Math.abs(getMonthDifference(minDate, maxDate));
+    }
+
+    private void refreshCalendarHeaders(Date startDate, Date dueDate) {
+		int insertedColumn = 0;
+		Date startMonth;
+		int numMonthsToInsert;
+        if (renderedMonths.isEmpty()) {
+			startMonth = startDate;
+			numMonthsToInsert = DateUtils.getMonthDifference(startMonth, dueDate);
+        } else {
+			Date currentMinMonth = renderedMonths.get(0);
+			Date currentMaxMonth = renderedMonths.get(renderedMonths.size() - 1);
+			if (startDate.before(currentMinMonth)) {
+				startMonth = DateUtils.beginningOfMonth(startDate);
+				numMonthsToInsert = DateUtils.getMonthDifference(startMonth, currentMinMonth);
+			} else if (dueDate.after(currentMaxMonth)) {
+				startMonth = DateUtils.rollMonth(currentMaxMonth, 1);
+				numMonthsToInsert = DateUtils.getMonthDifference(startMonth, dueDate);
+				insertedColumn = renderedMonths.size() - 1;
+			} else {
+				return;	// no change in calendar dates
+			}
+		}
+		insertColumn(insertedColumn, startMonth, numMonthsToInsert);
+    }
+
+    /**
+     * inserts a column in the specified index , shifting the existing columns if necessary
+     * 
+     * @param index
+     * @param startDate
+     * @param numMonthsToInsert
+     */
+    private void insertColumn(int index, Date startDate, int numMonthsToInsert) {
+        List<Header<?>> wrapper = new ArrayList<Header<?>>();
+        int k = 0;
+        for(int i = 0; i < numMonthsToInsert; i++) {
+            int insertionIndex = index + i;
+            Date month = DateUtils.rollMonth(startDate, i);
+            renderedMonths.add(insertionIndex, month);
+
+            List<Date> dateBreakdowns = getMonthlyDateBreakdowns(month);
+            List<Header<?>> breakdownHeaders = convertToHeaders(dateBreakdowns);
+            int monthHeaderColspan = dateBreakdowns.size() > 0 ? dateBreakdowns.size() : 1;
+
+            Header<String> monthHeader = getMonthHeader(month, monthHeaderColspan);
+            List<Column<TaskWidgetData, TaskWidgetData>> columns = getRenderColumns(month, dateBreakdowns);
+
+            wrapper.clear();
+            wrapper.add(monthHeader);
+
+            // TODO: remove the hardcoded value from here
+            table.insertHeaders(0, insertionIndex + 1, wrapper);
+            table.insertHeaders(1, insertionIndex + 5, breakdownHeaders);
+
+            for (Column<TaskWidgetData, TaskWidgetData> column : columns) {
+                table.insertColumn(insertionIndex + 5 + k, column);
+                k++;
+            }
+        }
     }
 
     private void rebuildCalendarTable() {
@@ -88,7 +144,7 @@ class GanntCalendarController {
             Date monthDate = date(year, month, 1);
 
             List<Date> dateBreakdowns = getMonthlyDateBreakdowns(monthDate);
-            List<Header<String>> breakdownHeaders = convertToHeaders(dateBreakdowns);
+            List<Header<?>> breakdownHeaders = convertToHeaders(dateBreakdowns);
             int monthHeaderColspan = dateBreakdowns.size() > 0 ? dateBreakdowns.size() : 1;
 
             Header<String> monthHeader = getMonthHeader(monthDate, monthHeaderColspan);
@@ -98,6 +154,7 @@ class GanntCalendarController {
             List<Column<TaskWidgetData, TaskWidgetData>> columns = getRenderColumns(monthDate, dateBreakdowns);
             ganntColumns.addAll(columns);
 
+            renderedMonths.add(monthDate);
         }
 
         final int numBottomHeaders = Math.min(bottomHeader.size() , NUMBER_OF_GRID_COLUMNS);
@@ -182,8 +239,8 @@ class GanntCalendarController {
         return new FlexHeader<String>(textCell, numMondays , formattedDate);
 
     }
-    private List<Header<String>> convertToHeaders(List<Date> breakdownDates) {
-        List<Header<String>> result = new ArrayList<Header<String>>(breakdownDates.size());
+    private List<Header<?>> convertToHeaders(List<Date> breakdownDates) {
+        List<Header<?>> result = new ArrayList<Header<?>>(breakdownDates.size());
         for(Date date: breakdownDates) {
             if (chartType.equals(ChartType.WEEKLY)) {
                 result.add(new FlexHeader<String>(textCell, DateFormatUtils.formatWeek(date)));
@@ -209,16 +266,18 @@ class GanntCalendarController {
     }
 
     private final ChartType chartType;
-    private final Map<TaskWidgetData, GanntFloater> floaterMap;
     private final CellTreeTable<TaskWidgetData> table;
     private final List<TaskWidgetData> displayModel;
+    private final List<Date> renderedMonths;
 
     private final TextCell textCell;
-    private final static int NUMBER_OF_GRID_COLUMNS = 3;    // desc, start date, end date, duration
+    private final static int NUMBER_OF_GRID_COLUMNS = 5;    // desc, start date, end date, duration
 
-    private ValueChangeHandler<TaskWidgetData> refreshTableOnTaskChange = new ValueChangeHandler<TaskWidgetData>() {
-        public void onValueChange(ValueChangeEvent<TaskWidgetData> taskWidgetDataValueChangeEvent) {
-            table.refreshRowForValue(taskWidgetDataValueChangeEvent.getValue());
-        }
-    };
+    private final PropertyDidChangeEventHandler<TaskWidgetData> refreshTableOnTaskChange = new PropertyDidChangeEventHandler<TaskWidgetData>() {
+		@Override
+		public void onPropertyChange(TaskWidgetData owner, String propertyName, Object oldValue, Object newValue) {
+			refreshCalendarHeaders(owner.getStartDate(), owner.getDueDate());
+			table.refresh(owner);
+		}
+	};
 }

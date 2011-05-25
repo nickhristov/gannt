@@ -19,7 +19,7 @@
             <element id="module-output" name="gannt" />
           </element>
           <element id="directory" name="lib">
-            <element id="library" level="project" name="Maven: com.google.gwt:gwt-servlet:2.2.0" />
+            <element id="library" level="project" name="Maven: com.google.gwt:gwt-servlet:2.3.0" />
             <element id="library" level="project" name="Maven: org.testng:testng:5.9" />
             <element id="library" level="project" name="Maven: junit:junit:3.8.1" />
             <element id="library" level="project" name="Maven: com.google.guava:guava:r08" />
@@ -306,11 +306,11 @@
   <component name="ProjectResources">
     <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="VcsDirectoryMappings">
-    <mapping directory="" vcs="" />
+    <mapping directory="" vcs="Git" />
   </component>
   <component name="WebServicesPlugin" addRequiredLibraries="true" />
   <component name="libraryTable">
@@ -325,37 +325,37 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/google/guava/guava/r08/guava-r08-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: com.google.gwt:gwt-dev:2.2.0">
+    <library name="Maven: com.google.gwt:gwt-dev:2.3.0">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-dev/2.2.0/gwt-dev-2.2.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-dev/2.3.0/gwt-dev-2.3.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-dev/2.2.0/gwt-dev-2.2.0-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-dev/2.3.0/gwt-dev-2.3.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-dev/2.2.0/gwt-dev-2.2.0-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-dev/2.3.0/gwt-dev-2.3.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: com.google.gwt:gwt-servlet:2.2.0">
+    <library name="Maven: com.google.gwt:gwt-servlet:2.3.0">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-servlet/2.2.0/gwt-servlet-2.2.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-servlet/2.3.0/gwt-servlet-2.3.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-servlet/2.2.0/gwt-servlet-2.2.0-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-servlet/2.3.0/gwt-servlet-2.3.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-servlet/2.2.0/gwt-servlet-2.2.0-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-servlet/2.3.0/gwt-servlet-2.3.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: com.google.gwt:gwt-user:2.2.0">
+    <library name="Maven: com.google.gwt:gwt-user:2.3.0">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-user/2.2.0/gwt-user-2.2.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-user/2.3.0/gwt-user-2.3.0.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-user/2.2.0/gwt-user-2.2.0-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-user/2.3.0/gwt-user-2.3.0-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-user/2.2.0/gwt-user-2.2.0-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/gwt/gwt-user/2.3.0/gwt-user-2.3.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: junit:junit:3.8.1">

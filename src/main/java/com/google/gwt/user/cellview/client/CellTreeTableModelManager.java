@@ -4,7 +4,7 @@ import java.util.PriorityQueue;
 
 public abstract class CellTreeTableModelManager {
 
-    public static <T> IndentData<T> findInTree(DataNode<T> rootNode, final T needle) {
+    public static <T> TreeContext<T> findInTree(DataNode<T> rootNode, final T needle) {
         assert rootNode != null;
         assert needle != null;
 
@@ -14,7 +14,7 @@ public abstract class CellTreeTableModelManager {
             }
         };
 
-        IndentData<T> result = walk(rootNode, finder, true, 0, 0);
+        TreeContext<T> result = walk(rootNode, finder, true, 0, 0);
         return result.getData().getValue().equals(needle) ? result : null;
     }
 
@@ -59,20 +59,20 @@ public abstract class CellTreeTableModelManager {
      * @param row
      * @return node at which the search terminated
      */
-    public static <T> IndentData<T> walk(DataNode<T> current, Visitor<T> visitor, boolean renderSiblings, int indentLevel, int row) {
+    public static <T> TreeContext<T> walk(DataNode<T> current, Visitor<T> visitor, boolean renderSiblings, int indentLevel, int row) {
         if (current == null) {
             return null;
         }
 
-        PriorityQueue<IndentData<T>> queue = new PriorityQueue<IndentData<T>>();
+        PriorityQueue<TreeContext<T>> queue = new PriorityQueue<TreeContext<T>>();
 
-        IndentData<T> data = new IndentData<T>();
+        TreeContext<T> data = new TreeContext<T>();
         data.setData(current);
         data.setIndentLevel(indentLevel);
         data.setRowIndex(row);
 
         queue.add(data);
-        IndentData<T> node = null;
+        TreeContext<T> node = null;
         while( ! queue.isEmpty()) {
             node = queue.poll();
             node.setRowIndex(row);
@@ -82,14 +82,14 @@ public abstract class CellTreeTableModelManager {
             }
 
             if (node.getData().getFirstChild() != null) {
-                data = new IndentData<T>();
+                data = new TreeContext<T>();
                 data.setData(node.getData().getFirstChild());
                 data.setIndentLevel(node.getIndentLevel() + 1);
                 queue.add(data);
             }
 
             if (renderSiblings && node.getData().getNextSibling() != null) {
-                data = new IndentData<T>();
+                data = new TreeContext<T>();
                 data.setData(node.getData().getNextSibling());
                 data.setIndentLevel(node.getIndentLevel());
                 queue.add(data);

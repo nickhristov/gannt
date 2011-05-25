@@ -44,7 +44,7 @@ public class CellTreeTableModelManagerTest {
                 return ! (row == 1) ;
             }
         };
-        IndentData<Long> result = CellTreeTableModelManager.walk(sum, visitor, true, 0, 0);
+        TreeContext<Long> result = CellTreeTableModelManager.walk(sum, visitor, true, 0, 0);
         assert result.getRowIndex() == 1;
         long resultv = result.getData().getValue();
         assert resultv == 100L : "Expected 100, but got " + resultv;
@@ -62,7 +62,7 @@ public class CellTreeTableModelManagerTest {
                 return ! (row == 2) ;
             }
         };
-        IndentData<Long> result = CellTreeTableModelManager.walk(sum, visitor, true, 0, 0);
+        TreeContext<Long> result = CellTreeTableModelManager.walk(sum, visitor, true, 0, 0);
         assert result.getRowIndex() == 2: "Expected row 2, but got " + result.getRowIndex();
         long resultv = result.getData().getValue() ;
         assert resultv == 200L: "Expected 200, but got " + resultv ;

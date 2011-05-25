@@ -69,7 +69,7 @@ class GanntFloaterCell implements Cell<TaskWidgetData> {
                 if (value.getChildren() != null && ! value.getChildren().isEmpty()) {
                     renderParentFloater(startDate, duration, sb);
                 } else {
-                    renderFloater(startDate, duration, sb);
+                    renderFloater(startDate, duration, value.getProgress(), sb);
                 }
             }
         }
@@ -115,11 +115,15 @@ class GanntFloaterCell implements Cell<TaskWidgetData> {
         throw new IllegalArgumentException("Unknown chart type");
     }
 
-    private void renderFloater(Date startDate, int dayDuration, SafeHtmlBuilder sb) {
-        SafeHtml rendered = template.floater(getPixelDuration(dayDuration), getPixelOffset(startDate));
+    private void renderFloater(Date startDate, int dayDuration, int percentComplete,  SafeHtmlBuilder sb) {
+        SafeHtml rendered = template.floater(getPixelDuration(dayDuration), getPixelOffset(startDate), getPixelCompletion(dayDuration, percentComplete));
         sb.append(rendered);
     }
 
+    private int getPixelCompletion(int dayDuration, int completionPercent) {
+        int offset = getPixelDuration( (int) ( dayDuration * (completionPercent)/100.0D ) );
+        return offset;
+    }
     private int getPixelOffset(Date startDate) {
         int dayOffset = DateUtils.getDaysDiff(periodStartDate, startDate);
         return getPixelDuration(dayOffset);
@@ -176,8 +180,8 @@ class GanntFloaterCell implements Cell<TaskWidgetData> {
 
 
     public interface CellTemplates extends SafeHtmlTemplates {
-        @SafeHtmlTemplates.Template("<div class=\"floater\" style=\"left: {1}px; width: {0}px\"><div class=\"floater-filler\"></div></div>")
-        SafeHtml floater(int duration, int position);
+        @SafeHtmlTemplates.Template("<div class=\"floater\" style=\"left: {1}px; width: {0}px\"><div class=\"floater-filler\" style=\"left:{2}px;\"></div></div>")
+        SafeHtml floater(int duration, int position, int completionOffset);
 
         @SafeHtmlTemplates.Template("<canvas class=\"parent-floater\" style=\"height: " + CELL_HEIGHT + "px;left: {1}px; width: {0}px\"/>")
         SafeHtml parentFloater(int duration, int position);
@@ -189,7 +193,7 @@ class GanntFloaterCell implements Cell<TaskWidgetData> {
     private final Date periodEndDate;
     private final ChartType type;
 
-    private static final int CELL_WIDTH_PX = 20;
+    private static final int CELL_WIDTH_PX = 24;
     private static final int PADDING_BOTTOM = 3;
     private static final int TRIANGLE_SIDE_LENGTH = 7;
     private static final String FILL_COLOR = "#FF9B2D";

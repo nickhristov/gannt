@@ -1,8 +1,8 @@
 package com.google.gwt.user.cellview.client;
 
-class IndentData<T> implements Comparable<IndentData<T>> {
+class TreeContext<T> implements Comparable<TreeContext<T>> {
 
-    public int compareTo(IndentData<T> o) {
+    public int compareTo(TreeContext<T> o) {
         return - (this.indentLevel - o.indentLevel);
     }
 

@@ -8,6 +8,7 @@ import java.util.Set;
 
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -20,25 +21,42 @@ import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.dom.client.TableSectionElement;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.safehtml.client.SafeHtmlTemplates;
-import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.view.client.Range;
 
-/**
- * TODO: there is a model ownership problem. who owns the model? needs to be resolved
- * TODO: create a model manager. tree depends on model manager to manage external model
- *
- * @param <T>
- */
 public class CellTreeTable<T> extends Widget implements IsWidget {
 
+    public void insertHeaders(int headerRow, int insertIndex, List<Header<?>> insertHeaders) {
+		if (insertHeaders.isEmpty()) {
+			return;
+		}
+        // logical insert:
+        flexHeaderRows.get(headerRow).addAll(insertIndex, insertHeaders);
+		
+		// physical insert:
+		for(int i = 0; i < insertHeaders.size(); i++) {
+			Header<?> headerColumn = insertHeaders.get(i);
+			int renderIndex = i + insertIndex;
+			TableRowElement rowElement = ensureRow(thead, headerRow);
+			renderHeader(headerRow, renderIndex, rowElement, headerColumn);
+		}
+    }
+
+    private class RenderingCommand implements Scheduler.ScheduledCommand {
+        public void execute() {
+            // clear state:
+            deferredRenderer = null;
+            renderAllColumns();
+        }
+    }
 
     private final TableElement table;
     private final List<List<Header<?>>> flexHeaderRows;
     private final List<Column<T, ?>> columns;
+    private CellStyleProvider<T> styleProvider;
 
     public CellTreeTable() {
         table = Document.get().createTableElement();
@@ -48,8 +66,12 @@ public class CellTreeTable<T> extends Widget implements IsWidget {
         columns = new LinkedList<Column<T, ?>>();
         rootNode = new DataNode<T>();
         tbody = createBodyIfNecessary();
-        sinkEvents(Event.FOCUSEVENTS | Event.MOUSEEVENTS | Event.KEYEVENTS );
+        sinkEvents(Event.FOCUSEVENTS | Event.MOUSEEVENTS | Event.KEYEVENTS);
         table.setClassName("CellTreeTable");
+    }
+
+    public void setStyleProvider(CellStyleProvider<T> styleProvider) {
+        this.styleProvider = styleProvider;
     }
 
     public void addHeaderRow(List<Header<?>> headerRow) {
@@ -89,40 +111,74 @@ public class CellTreeTable<T> extends Widget implements IsWidget {
             columns.remove(startIndex);
         }
         columns.addAll(newColumns);
-        renderHeaders();
         for(int i = startIndex; i < columns.size(); i++) {
             Column<T, ?> column = columns.get(i);
-            renderColumnAtIndex(i, column, true);
+            renderColumnAtIndex(i, column, true, false);
             sinkEvents(column);
         }
     }
 
-    public void setColumns(List<Column<T, ?>> newColumns) {
-        replaceColumns(0, newColumns);
+    public void refresh(final Range columnRange, final Range rowRange) {
+        assert columns != null && columns.size() >= columnRange.getLength();
+        
+        Visitor<T> renderer = new Visitor<T>() {
+            public boolean visit(int row, DataNode<T> visitNode, int indentLevel) {
+                if ( row >= rowRange.getStart() && row < (rowRange.getStart() + rowRange.getLength())) {
+                    int columnEnd = columnRange.getStart() + columnRange.getLength();
+                    for(int ci = columnRange.getStart(); ci < columnEnd; ci++) {
+                        Column<T, ?> column = columns.get(ci);
+                        render(tbody, visitNode, row, ci, column, indentLevel, false);
+                    }
+                }
+                return row < (rowRange.getLength() + rowRange.getStart());
+            }
+        };
+
+        CellTreeTableModelManager.walk(rootNode.getFirstChild(), renderer, true, 0, 0);
+    }
+
+    public void refresh(T value) {
+        TreeContext<T> data = CellTreeTableModelManager.findInTree(rootNode.getFirstChild(), value);
+        int startIndex = data.rowIndex;
+        Range rowRange = new Range(startIndex, 1);
+        Range allColumnsRange = new Range(0, columns.size());
+        refresh(allColumnsRange, rowRange);
     }
 
     public void addColumn(Column<T, ?> column) {
         int index = columns.size();
         columns.add(column);
         renderHeaders();
-        renderColumnAtIndex(index, column, true);
+        renderColumnAtIndex(index, column, true, false);
         sinkEvents(column);
+    }
 
+    public void insertColumn(int position, Column<T, ?> column) {
+        if (position < 0) {
+            position = columns.size() + ( position % columns.size() ) ;
+            insertColumn(position, column);
+            return;
+        }
+        if (position == columns.size()) {
+            addColumn(column);
+            return;
+        }
+        if (position > columns.size()) {
+            throw new IllegalArgumentException("Position index is larger than existing column size of " + columns.size());
+        }
+        columns.add(position, column);
+        renderColumnAtIndex(position, column, true, true);
+        sinkEvents(column);
     }
 
     private void sinkEvents(Column<T, ?> column) {
         Set<String> consumedEvents = new HashSet<String>();
-        Set<String> cellEvents = column.getCell().getConsumedEvents();
+		Set<String> cellEvents = column.getCell().getConsumedEvents();
         if (cellEvents != null) {
             consumedEvents.addAll(cellEvents);
         }
         CellBasedWidgetImpl.get().sinkEvents(this, consumedEvents);
 
-    }
-
-    private TableSectionElement getBody() {
-        NodeList<TableSectionElement> bodies = table.getTBodies();
-        return bodies.getItem(0);
     }
 
     private TableSectionElement createBodyIfNecessary() {
@@ -135,12 +191,13 @@ public class CellTreeTable<T> extends Widget implements IsWidget {
         return body;
     }
 
-    private void renderColumnAtIndex(final int index, final Column<T, ?> column, boolean renderSiblings) {
+    private void renderColumnAtIndex(final int index, final Column<T, ?> column, boolean renderSiblings, final boolean forceInsert) {
+        // TODO: refactor this method out, replace with progressive rendering method
         if (rootNode.getFirstChild() != null) {
             final TableSectionElement body = createBodyIfNecessary();
             Visitor<T> visitor = new Visitor<T>() {
                 public boolean visit(int row, DataNode<T> renderNode, int indentLevel) {
-                    render(body, renderNode, row, index, column, index == 0 ? indentLevel : 0);
+                    render(body, renderNode, row, index, column, index == 0 ? indentLevel : 0, forceInsert);
                     return true;
                 }
             };
@@ -151,7 +208,10 @@ public class CellTreeTable<T> extends Widget implements IsWidget {
 
     private TableRowElement ensureRow(TableSectionElement body, int rowIndex) {
         TableRowElement rowElement;
-        if (body.getRows().getLength() <= rowIndex) {
+        if (body.getRows().getLength() < rowIndex) {
+            ensureRow(body, rowIndex-1);
+        }
+        if (body.getRows().getLength() == rowIndex) {
             rowElement = body.insertRow(rowIndex);
         } else {
             rowElement = body.getRows().getItem(rowIndex);
@@ -159,21 +219,34 @@ public class CellTreeTable<T> extends Widget implements IsWidget {
         return rowElement;
     }
 
-    private TableCellElement ensureCell(TableRowElement rowElement, int columnIndex) {
+    private TableCellElement ensureCell(TableRowElement rowElement, int columnIndex, boolean forceInsert) {
         TableCellElement cell;
+
+        if (rowElement.getCells().getLength() < columnIndex) {
+            ensureCell (rowElement, columnIndex - 1, false);
+        }
         if (rowElement.getCells().getLength() <= columnIndex) {
             cell = rowElement.insertCell(columnIndex);
         } else {
-            cell = rowElement.getCells().getItem(columnIndex);
+            if (forceInsert) {
+                cell = rowElement.insertCell(columnIndex);
+            } else {
+                cell = rowElement.getCells().getItem(columnIndex);
+            }
         }
         return cell;
     }
 
 
-    private void render(TableSectionElement body, DataNode<T> renderNode, int rowIndex, int columnIndex, Column<T, ?> column, int indent) {
+    private void render(TableSectionElement body, TreeContext<T> context, int columnIndex, boolean forceInsert) {
+        render(body, context.getData(), context.getRowIndex(), columnIndex, columns.get(columnIndex), context.getIndentLevel(), forceInsert);
+    }
+    
+    private void render(TableSectionElement body, DataNode<T> renderNode,
+                        int rowIndex, int columnIndex, Column<T, ?> column, int indent, boolean forceInsert) {
+        GWT.log("render - row: " + rowIndex + " column: " + columnIndex);
         TableRowElement rowElement = ensureRow(body, rowIndex);
-//        GWT.log("rendering at row: " + rowIndex + " col index: "+ columnIndex);
-        TableCellElement cell = ensureCell(rowElement, columnIndex);
+        TableCellElement cell = ensureCell(rowElement, columnIndex, forceInsert);
         if (indent > 0 && columnIndex == 0) {
             cell.getStyle().setPaddingLeft(indent * 1.2, Style.Unit.EM);
         } else {
@@ -186,11 +259,20 @@ public class CellTreeTable<T> extends Widget implements IsWidget {
         outerDivBuilder.append(builder.toSafeHtml());
         cell.setInnerHTML(outerDivBuilder.toSafeHtml().asString());
         DivElement wrapper = getWrapper(cell);
-
+        wrapper.removeAttribute("class");
+        if (styleProvider != null) {
+            String[] styleNames = styleProvider.getStyleNames(renderNode.getValue(), column);
+            if (styleNames!= null && styleNames.length > 0) {
+                for(String styleClass: styleNames) {
+                    wrapper.addClassName(styleClass);
+                }
+            }
+        }
         Cell.Context context = new Cell.Context(rowIndex, columnIndex, null);
 
         Cell renderCell = column.getCell();
         Object value = column.getValue(renderNode.getValue());
+		assert value != null : "Value cannot be null for column at index : " + columnIndex;
         renderCell.setValue(context, wrapper, value);
 //        column.render(context, renderNode.getValue(), builder);
 
@@ -233,27 +315,31 @@ public class CellTreeTable<T> extends Widget implements IsWidget {
     protected void renderHeaderRow(int headerRow, TableRowElement element, List<? extends Header<?>> headers) {
         int i = 0;
         for (Header<?> headerColumn : headers) {
-            TableCellElement cell = element.insertCell(i);
-            if (headerColumn instanceof FlexHeader) {
-                FlexHeader flexHeader = (FlexHeader) headerColumn;
-                cell.setColSpan(flexHeader.getColSpan());
-            } else {
-                cell.setColSpan(1);
-            }
-            SafeHtmlBuilder builder = new SafeHtmlBuilder();
-            Cell.Context context = new Cell.Context(headerRow, i, null);
-            headerColumn.render(context, builder);
-            cell.setInnerHTML(builder.toSafeHtml().asString());
+			renderHeader(headerRow, i, element, headerColumn);
             i++;
         }
     }
 
-    private void renderAllColumns(TableSectionElement body) {
+	private void renderHeader(int headerRow, int i, TableRowElement element,  Header<?> headerColumn) {
+		TableCellElement cell = element.insertCell(i);
+		if (headerColumn instanceof FlexHeader) {
+			FlexHeader flexHeader = (FlexHeader) headerColumn;
+			cell.setColSpan(flexHeader.getColSpan());
+		} else {
+			cell.setColSpan(1);
+		}
+		SafeHtmlBuilder builder = new SafeHtmlBuilder();
+		Cell.Context context = new Cell.Context(headerRow, i, null);
+		headerColumn.render(context, builder);
+		cell.setInnerHTML(builder.toSafeHtml().asString());
+	}
+
+	private void renderAllColumns() {
         // render from right to left in order to avoid any browser layout issues
         isRefreshing = true;
         for (int i = 0; i < columns.size(); i++) {
             Column<T, ?> column = columns.get(i);
-            renderColumnAtIndex(i, column, true);
+            renderColumnAtIndex(i, column, true, false);
         }
         isRefreshing = false;
     }
@@ -287,17 +373,22 @@ public class CellTreeTable<T> extends Widget implements IsWidget {
      * @param offset offset at which to add the parent. can be negative for end of list
      */
     public void addItem(T parent, T value, int offset) {
-        IndentData<T> parentNode = CellTreeTableModelManager.findInTree(rootNode, parent);
-        CellTreeTableModelManager.logicalInsert(parentNode.getData(), value, offset);
+        TreeContext<T> parentContext = CellTreeTableModelManager.findInTree(rootNode, parent);
+        CellTreeTableModelManager.logicalInsert(parentContext.getData(), value, offset);
 
-        // TODO: make it incremental instead of a full refresh
-        renderAllColumns(getBody());
+        scheduleRendering();
+    }
+
+    private void scheduleRendering() {
+        if (deferredRenderer == null) {
+            deferredRenderer = new RenderingCommand();
+            Scheduler.get().scheduleFinally(deferredRenderer);
+        }
     }
 
     public void addItem(T value, int offset) {
         CellTreeTableModelManager.logicalInsert(rootNode, value, offset);
-        // TODO: make it incremental instead of a full refresh
-        renderAllColumns(getBody());
+        scheduleRendering();
     }
 
     /**
@@ -374,13 +465,11 @@ public class CellTreeTable<T> extends Widget implements IsWidget {
                 Cell.Context context = new Cell.Context(tr.getSectionRowIndex(), columnIndex, "k" + columnIndex);
                 if (columnIndex == 0 && isCollapserElement(target) && eventType.equals("click")) {
                     node.setExpanded(!node.isExpanded());
-                    renderColumnAtIndex(0, columns.get(0), true);
+                    renderColumnAtIndex(0, columns.get(0), true, false);
                     handleRowBelowNode(section, node, tr.getSectionRowIndex());
-                } else if (columnIndex == 0) {
+                } else {
                     DivElement wrapper = getWrapper(tableCell);
                     fireEventToCell(event, wrapper, node.getValue(), context, columns.get(columnIndex));
-                } else {
-                    fireEventToCell(event, tableCell, node.getValue(), context, columns.get(columnIndex));
                 }
             }
         }
@@ -419,8 +508,6 @@ public class CellTreeTable<T> extends Widget implements IsWidget {
     }
 
     private DataNode<T> traverseToIndex(final int rowIndex) {
-
-        // TODO: there is a bug here children do not get counted properly, I think
         /// TODO: this is performing at N, should find a shortcut.
         /// should run in constant time. otherwise every time a click happens at the bottom
         // of the table it will be slow.
@@ -433,8 +520,7 @@ public class CellTreeTable<T> extends Widget implements IsWidget {
             }
         };
 
-        IndentData<T> data = CellTreeTableModelManager.walk(rootNode.getFirstChild(), visitor, true, 0, 0);
-        return data.getData();
+		return CellTreeTableModelManager.walk(rootNode.getFirstChild(), visitor, true, 0, 0).getData();
     }
 
     public List<Column<T, ?>> getColumns() {
@@ -470,21 +556,6 @@ public class CellTreeTable<T> extends Widget implements IsWidget {
 
     private boolean cellConsumesEventType(Cell<?> cell, String eventType) {
         return cell.getConsumedEvents() != null && cell.getConsumedEvents().contains(eventType);
-    }
-
-    public void refreshRowForValue(T value) {
-
-        renderAllColumns(getBody());
-        // TODO: create incremental update, instead of complete update
-//        IndentData<T> location = CellTreeTableModelManager.findInTree(rootNode, value);
-
-
-//        isRefreshing = true;
-//        for (int i = 0; i < columns.size(); i++) {
-//            Column<T, ?> column = columns.get(i);
-//            renderColumnAtIndex(i, column, true);
-//        }
-//        isRefreshing = false;
     }
 
     /**
@@ -540,20 +611,13 @@ public class CellTreeTable<T> extends Widget implements IsWidget {
     }
     */
 
-    public interface CellTemplates extends SafeHtmlTemplates {
-        @SafeHtmlTemplates.Template("<img src=\"{0}\"/>")
-        SafeHtml img(String url);
-    }
-
     interface Resources extends ClientBundle {
         @Source("collapsed.png")
         ImageResource collapsed();
 
-        @ClientBundle.Source("expanded.png")
+        @Source("expanded.png")
         ImageResource expanded();
     }
-
-    CellTemplates cellTemplates = GWT.create(CellTemplates.class);
 
     Resources imageResources = GWT.create(Resources.class);
 
@@ -562,6 +626,7 @@ public class CellTreeTable<T> extends Widget implements IsWidget {
     private final TableSectionElement thead;
     private boolean isRefreshing = false;
 
+    Scheduler.ScheduledCommand deferredRenderer = null;
 
     public Widget asWidget() {
         return this;

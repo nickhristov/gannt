@@ -1,6 +1,5 @@
 package com.fb.workplan.client;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -13,11 +12,13 @@ import com.google.gwt.json.client.JSONObject;
 @SuppressWarnings({"UnusedDeclaration"})
 public class TaskWidgetData implements Comparable<TaskWidgetData> {
 
+	private static final Date TODAY = DateUtils.midnight(new Date());
     public TaskWidgetData() {
     }
 
-    private Date dueDate;
-    private Date startDate;
+	private int state = 0;
+    private Date dueDate = TODAY;
+    private Date startDate = TODAY;
     private String description;
     private String id;
     private String parentId;
@@ -27,6 +28,17 @@ public class TaskWidgetData implements Comparable<TaskWidgetData> {
     private TaskWidgetData parent;
     private int indentLevel = 0;
     private final List<TaskWidgetData> children = new LinkedList<TaskWidgetData>();
+	private List<TaskWidgetData> upstreamTasks = new LinkedList<TaskWidgetData>();
+    private int progress;
+
+    public int getProgress() {
+        return progress;
+    }
+
+    public void setProgress(int progress) {
+        this.progress = progress;
+    }
+
     private final MFunction<TaskWidgetData, Integer> getDurationFunc = new  MFunction<TaskWidgetData, Integer>() {
         public Integer apply( TaskWidgetData input) {
             return input.getDuration();
@@ -98,36 +110,19 @@ public class TaskWidgetData implements Comparable<TaskWidgetData> {
     }
 
     public Date getDueDate() {
-        if (getChildren().size() < 1) {
-            return dueDate;
-        } else {
-            List<Date> endDates = MLists.transform(getChildren(), getEndDateFunc);
-            return Collections.max(endDates);
-        }
+		return dueDate;
     }
 
     public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
-        if (this.duration > 0) {
-            this.startDate = new Date(this.dueDate.getTime() - duration * DAY_IN_MS);
-        }
-
     }
 
     public Date getStartDate() {
-        if (getChildren().size() < 1) {
-            return startDate;
-        } else {
-            List<Date> startDates = MLists.transform(getChildren(), getStartDateFunc);
-            return Collections.min(startDates);
-        }
+        return startDate;
     }
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
-        if (this.duration > 0) {
-            this.dueDate = new Date(startDate.getTime() + duration * DAY_IN_MS);
-        }
     }
 
     public String getDescription() {
@@ -147,18 +142,7 @@ public class TaskWidgetData implements Comparable<TaskWidgetData> {
     }
 
     public int getDuration() {
-        if (this.getChildren().isEmpty()) {
-            return duration;
-        } else {
-            List<Integer> durations = MLists.transform(getChildren(), getDurationFunc);
-            int sum = 0;
-            for(int d : durations) {
-                sum+= d;
-            }
-            int daysDiff = DateUtils.getDaysDiff(getStartDate(), getDueDate());
-
-            return Math.max(daysDiff, sum);
-        }
+        return duration;
     }
 
     public void setDuration(int duration) {
@@ -240,6 +224,22 @@ public class TaskWidgetData implements Comparable<TaskWidgetData> {
         } else {
             return 1;
         }
+    }
+
+	public List<TaskWidgetData> getUpstreamTasks() {
+		return upstreamTasks;
+	}
+
+	public void setUpstreamTasks(List<TaskWidgetData> upstreamTasks) {
+		this.upstreamTasks = upstreamTasks;
+	}
+
+	public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 
     public int hashCode() {

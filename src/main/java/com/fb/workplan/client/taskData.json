@@ -1,0 +1,238 @@
+[
+    {
+        "id": "11",
+        "shortDescription" : "Add a piece of generic logic to deal with corrent insertion order of dependencies",
+        "duration": 1,
+        "startDate": "2010-06-02"
+    },
+    {
+        "id": "1",
+        "shortDescription" : "Optimize cell table rendering",
+        "duration": 1,
+        "startDate": "2010-05-10"
+    },
+
+    {
+        "id": "2",
+        "shortDescription" : "Bugs",
+        "duration": 1,
+        "startDate": "2010-05-10"
+    },
+
+    {
+        "id": "3",
+        "parentId" : "2",
+        "shortDescription" : "Table rendering has wrapper element issues",
+        "duration": 1,
+        "startDate": "2010-05-11"
+    },
+
+    {
+        "id": "4",
+        "parentId" : "2",
+        "shortDescription" : "Parent tasks have incorrect width",
+        "duration": 1,
+        "startDate": "2010-05-12"
+    }
+    ,
+
+    {
+        "id": "5",
+        "parentId" : "2",
+        "shortDescription" : "Progressive rendering seems broken. Updates to cell elements are not reflected in chart",
+        "duration": 1,
+        "startDate": "2010-06-01"
+    }
+    ,
+
+    {
+        "id": "6",
+        "shortDescription" : "Profile with large data sets",
+        "duration": 1,
+        "startDate": "2010-06-02"
+    }
+
+    ,
+
+    {
+        "id": "7",
+        "shortDescription" : "Integrate into workplan project",
+        "duration": 1,
+        "startDate": "2010-06-02"
+    }    ,
+    {
+        "id": "css",
+        "shortDescription" : "CSS Issues",
+        "duration": 1,
+        "parentId": "2",
+        "startDate": "2010-05-10"
+    },
+    {
+        "id": "9",
+        "shortDescription" : "EditTextCell needs to set width at 100% - not working now",
+        "duration": 1,
+        "parentId": "css",
+        "startDate": "2010-05-10"
+    },
+    {
+        "id": "10",
+        "shortDescription" : "Headers need to be bold",
+        "duration": 1,
+        "parentId": "css",
+        "startDate": "2010-05-10"
+    },
+
+
+    {
+        "id": "12",
+        "shortDescription" : "Add a month/weekly/daily dropdown",
+        "duration": 10,
+        "startDate": "2010-05-20"
+    },
+
+
+    {
+        "id": "13",
+        "shortDescription" : "Need create a presenter out of the gannt.java class",
+        "duration": 1,
+        "startDate": "2010-05-10"
+    }
+    ,
+
+
+    {
+        "id": "14",
+        "shortDescription" : "Add google checkout integration",
+        "duration": 15,
+        "startDate": "2010-07-01"
+    },
+
+
+    {
+        "id": "15",
+        "shortDescription" : "Build and deploy a stand-alone release",
+        "duration": 15,
+        "startDate": "2010-07-01"
+    }
+    ,
+
+
+    {
+        "id": "16",
+        "shortDescription" : "Backend",
+        "duration": 15,
+        "startDate": "2010-07-01"
+    }
+    ,
+
+
+    {
+        "id": "17",
+        "shortDescription" : "Switch to RIAK",
+        "duration": 15,
+        "parentId": "16",
+        "startDate": "2010-07-01"
+    }
+        ,
+
+
+    {
+        "id": "18",
+        "shortDescription" : "Add local storage support",
+        "duration": 15,
+        "parentId": "16",
+        "startDate": "2010-07-01"
+    },
+
+
+    {
+        "id": "19",
+        "shortDescription" : "Add change sets",
+        "duration": 15,
+        "parentId": "16",
+        "startDate": "2010-07-01"
+    },
+    {
+        "id": "ui",
+        "shortDescription" : "User interface",
+        "duration": 1,
+        "startDate": "2010-05-10"
+    },
+    {
+        "id": "20",
+        "shortDescription" : "Task cell",
+        "duration": 1,
+        "parentId": "ui",
+        "startDate": "2010-05-10"
+    }
+,
+    {
+        "id": "21",
+        "shortDescription" : "Add checkbox",
+        "duration": 1,
+        "parentId": "20",
+        "startDate": "2010-05-10"
+    },
+    {
+        "id": "22",
+        "shortDescription" : "Add details link",
+        "duration": 1,
+        "parentId": "20",
+        "startDate": "2010-05-10"
+    }
+,
+    {
+        "id": "23",
+        "shortDescription" : "Add CANVAS widget",
+        "duration": 1,
+        "parentId": "ui",
+        "startDate": "2010-05-10"
+    },
+    {
+        "id": "24",
+        "shortDescription" : "UI should hint on priority",
+        "duration": 1,
+        "parentId": "ui",
+        "startDate": "2010-05-10"
+    },
+
+    {
+        "id": "25",
+        "shortDescription" : "Cells in grid need horizontal rows : need to look like cells",
+        "duration": 1,
+        "parentId": "css",
+        "startDate": "2010-05-10"
+    }
+        ,
+
+    {
+        "id": "web1",
+        "shortDescription" : "Support for web 1.0 features.",
+        "duration": 1,
+        "parentId": "ui",
+        "startDate": "2010-05-10"
+    },
+
+    {
+        "id": "27",
+        "shortDescription" : "All anchors and links have href",
+        "duration": 1,
+        "parentId": "web1",
+        "startDate": "2010-05-10"
+    },
+
+    {
+        "id": "28",
+        "shortDescription" : "Support multiple tabs open",
+        "duration": 1,
+        "parentId": "web1",
+        "startDate": "2010-05-10"
+    },
+    {
+        "id": "29",
+        "shortDescription" : "Calendar column headers do not refresh, when a task is updated",
+        "duration": 1,
+        "startDate": "2010-05-10"
+    }
+
+]
