@@ -178,7 +178,8 @@
         "shortDescription" : "Add details link",
         "duration": 1,
         "parentId": "20",
-        "startDate": "2010-05-10"
+        "startDate": "2010-05-10",
+        "dependencies": ["21"]
     }
 ,
     {

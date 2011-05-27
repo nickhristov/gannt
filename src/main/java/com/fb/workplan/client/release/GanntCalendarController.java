@@ -103,7 +103,6 @@ class GanntCalendarController {
 			wrapper.clear();
 			wrapper.add(monthHeader);
 
-			// TODO: remove the hardcoded value from here
 			table.insertHeaders(TOP_ROW, insertionIndex + 1, wrapper);
 			table.insertHeaders(DETAIL_ROW, insertionIndex + 5, breakdownHeaders);
 
@@ -115,6 +114,8 @@ class GanntCalendarController {
 	}
 
 	private void rebuildCalendarTable() {
+
+		// TODO: this function needs to be refactored. header rows and columns should be added in such a way as to not interfere with grid headers/columns
 		Date startDate = firstStartDate();
 		Date minDate = startDate == null ? new Date() : startDate;
 		Date maxDate = minDate;
@@ -132,9 +133,10 @@ class GanntCalendarController {
 		int numMonths = getMonthDiff(minDate, maxDate) + 1;
 		List<List<Header<?>>> headers = table.getHeaderRows();
 		assert headers != null : "Header rows must have been initialized by this point";
-		assert headers.size() == 2 : "Header rows do not have the expected size";
-		List<Header<?>> topHeader = headers.get(0);
-		List<Header<?>> bottomHeader = headers.get(1);
+		assert headers.size() == 3 : "Header rows do not have the expected size";
+		List<Header<?>> canvasRow = headers.get(CANVAS_ROW);
+		List<Header<?>> topHeader = headers.get(TOP_ROW);
+		List<Header<?>> bottomHeader = headers.get(DETAIL_ROW);
 
 		List<Header<?>> replacementTopHeaders = new LinkedList<Header<?>>();
 		List<Header<?>> replacementBottomHeaders = new LinkedList<Header<?>>();
@@ -162,11 +164,11 @@ class GanntCalendarController {
 		replacementBottomHeaders.addAll(0, bottomHeader.subList(0, numBottomHeaders));
 		replacementTopHeaders.add(0, topHeader.get(0));
 		List<List<Header<?>>> allHeaders = new LinkedList<List<Header<?>>>();
+		allHeaders.add(canvasRow);
 		allHeaders.add(replacementTopHeaders);
 		allHeaders.add(replacementBottomHeaders);
 		table.setHeaderRows(allHeaders);
 		table.replaceColumns(NUMBER_OF_GRID_COLUMNS, ganntColumns);
-
 	}
 
 	private List<Column<TaskWidgetData, TaskWidgetData>> getRenderColumns(Date month, List<Date> dateBreakdowns) {
@@ -278,6 +280,7 @@ class GanntCalendarController {
 	private final TextCell textCell;
 	private final static int NUMBER_OF_GRID_COLUMNS = 5;	// desc, start date, end date, duration
 
+	final int CANVAS_ROW = 0;
 	final int TOP_ROW = 1;
 	final int DETAIL_ROW = 2;
 
@@ -286,6 +289,7 @@ class GanntCalendarController {
 		public void onPropertyChange(TaskWidgetData owner, String propertyName, Object oldValue, Object newValue) {
 			refreshCalendarHeaders(owner.getStartDate(), owner.getDueDate());
 			table.refresh(owner);
+			table.refreshHeaderRow(CANVAS_ROW);
 		}
 	};
 }

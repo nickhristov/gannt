@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import com.fb.workplan.client.AnchorCell;
 import com.fb.workplan.client.CanvasCell;
 import com.fb.workplan.client.CanvasCellRenderer;
 import com.fb.workplan.client.DateUtils;
@@ -17,10 +16,14 @@ import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.DatePickerCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.HasCell;
+import com.google.gwt.cell.client.ImageResourceCell;
 import com.google.gwt.cell.client.TextCell;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.cellview.client.CellStyleProvider;
 import com.google.gwt.user.cellview.client.CellTreeTable;
 import com.google.gwt.user.cellview.client.Column;
@@ -54,16 +57,24 @@ class GanntGridController {
 			}
 		};
 
-		Cell<String> linkCell = new AnchorCell();
+		ImageResourceCell imageCell = new ImageResourceCell();
 
-		Column<TaskWidgetData, String> link = new Column<TaskWidgetData, String>(linkCell) {
+		Column<TaskWidgetData, ImageResource> edit = new Column<TaskWidgetData, ImageResource>(imageCell) {
 			@Override
-			public String getValue(TaskWidgetData object) {
-				return "\u24d8";
+			public ImageResource getValue(TaskWidgetData object) {
+				return images.writedocument();
 			}
 		};
 
-		return new FixedCompositeCell<TaskWidgetData>(Arrays.<HasCell<TaskWidgetData, ?>>asList(descColumn, link));
+
+		Column<TaskWidgetData, ImageResource> comment = new Column<TaskWidgetData, ImageResource>(imageCell) {
+			@Override
+			public ImageResource getValue(TaskWidgetData object) {
+				return images.discussion();
+			}
+		};
+
+		return new FixedCompositeCell<TaskWidgetData>(Arrays.<HasCell<TaskWidgetData, ?>>asList(descColumn, edit, comment));
 	}
 
 	public void init() {
@@ -237,4 +248,13 @@ class GanntGridController {
 
 	private boolean adjustDates = true;
 
+	interface Images extends ClientBundle {
+		@ClientBundle.Source("writedocument.png")
+		public ImageResource writedocument();
+
+		@ClientBundle.Source("discussion.png")
+		public ImageResource discussion();
+	}
+
+	Images images = GWT.create(Images.class);
 }

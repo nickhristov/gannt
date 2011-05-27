@@ -11,6 +11,7 @@ import com.fb.workplan.client.DateUtils;
 import com.fb.workplan.client.PropertyDidChangeEvent;
 import com.fb.workplan.client.PropertyDidChangeEventHandler;
 import com.fb.workplan.client.TaskWidgetData;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.HandlerManager;
@@ -53,33 +54,34 @@ public class GanntWidget extends Composite {
 
 	private class InnerMapElementMapper implements ElementMapper {
 		@Override
-		public void setElementForValue(Element firstChildElement, TaskWidgetData value) {
-			taskElementMap.put(value, firstChildElement);
+		public void setElementForValue(Element element, TaskWidgetData value) {
+			GWT.log("placed element for task: " + value.getId() + " element: " + element);
+			taskElementMap.put(value.getId(), element);
 		}
 	}
 
 	List<TaskWidgetData> displayModel = new ArrayList<TaskWidgetData>(50);
 	FlowPanel wrapperPanel;
-	final Map<TaskWidgetData, Element> taskElementMap;
+	Map<String, Element> taskElementMap;
 	final ElementMapper elementMapper;
 
+	@SuppressWarnings({"unchecked"})
 	public GanntWidget() {
 		table = new CellTreeTable<TaskWidgetData>();
 		table.addStyleName("gannt-table");
 		manager = new HandlerManager(this);
-		taskElementMap = new HashMap<TaskWidgetData, Element>();
+		taskElementMap = new HashMap<String, Element>();
 		elementMapper = new InnerMapElementMapper();
 
-		canvasWidget = new GanntCanvasRenderer(table, displayModel, taskElementMap);
-		detailsController = new GanntGridController(table, displayModel, manager, canvasWidget);
+		GanntCanvasRenderer canvasRenderer = new GanntCanvasRenderer(table, taskElementMap);
+		detailsController = new GanntGridController(table, displayModel, manager, canvasRenderer);
 		calendarController = new GanntCalendarController(table, displayModel, manager, elementMapper);
-		idDataMap = new HashMap<String, TaskWidgetData>();
 		wrapperPanel = new FlowPanel();
 		wrapperPanel.add(table);
 		initWidget(wrapperPanel);
 
-		manager.addHandler(PropertyDidChangeEvent.getType(), updateDependenciesHandler);
-		manager.addHandler(PropertyDidChangeEvent.getType(), reRenderHandler);
+		manager.addHandler(PropertyDidChangeEvent.getType(), createUpdateDependenciesHandler());
+		manager.addHandler(PropertyDidChangeEvent.getType(), createRenderHandler());
 	}
 
 	protected void initWidget(Widget table) {
@@ -140,6 +142,7 @@ public class GanntWidget extends Composite {
 		}
 	}
 
+	@SuppressWarnings({"unchecked"})
 	public HandlerRegistration addValueChangeHandler(PropertyDidChangeEventHandler<TaskWidgetData> valueChangeHandler) {
 		return manager.addHandler(PropertyDidChangeEvent.getType(), valueChangeHandler);
 	}
@@ -148,53 +151,54 @@ public class GanntWidget extends Composite {
 	private final HandlerManager manager;
 
 	private final GanntGridController detailsController;
-	private final GanntCanvasRenderer canvasWidget;
 	private final GanntCalendarController calendarController;
-	private final Map<String, TaskWidgetData> idDataMap;
-	private final PropertyDidChangeEventHandler<TaskWidgetData> updateDependenciesHandler = new PropertyDidChangeEventHandler<TaskWidgetData>() {
-		@Override
-		public void onPropertyChange(TaskWidgetData owner, String propertyName, Object oldValue, Object newValue) {
-			TaskWidgetData parent = owner.getParent();
-			if (parent != null) {
-				if (propertyName.equals("startDate")) {
-					Date parentStartDate = parent.getStartDate();
-					Date taskMinDate = (Date) newValue;
-					if (taskMinDate.before(parentStartDate)) {
-						parent.setStartDate(taskMinDate);
-						manager.fireEvent(new PropertyDidChangeEvent<TaskWidgetData>(parent, propertyName, parentStartDate, taskMinDate));
+
+	private PropertyDidChangeEventHandler<TaskWidgetData> createUpdateDependenciesHandler() {
+		return new PropertyDidChangeEventHandler<TaskWidgetData>() {
+			@Override
+			public void onPropertyChange(TaskWidgetData owner, String propertyName, Object oldValue, Object newValue) {
+				TaskWidgetData parent = owner.getParent();
+				if (parent != null) {
+					if (propertyName.equals("startDate")) {
+						Date parentStartDate = parent.getStartDate();
+						Date taskMinDate = (Date) newValue;
+						if (taskMinDate.before(parentStartDate)) {
+							parent.setStartDate(taskMinDate);
+							manager.fireEvent(new PropertyDidChangeEvent<TaskWidgetData>(parent, propertyName, parentStartDate, taskMinDate));
+							recalculateParentDuration(parent, true);
+						}
+					} else if (propertyName.equals("dueDate")) {
+						Date parentDueDate = parent.getDueDate();
+						Date taskDueDate = (Date) newValue;
+						if (taskDueDate.after(parentDueDate)) {
+							parent.setDueDate(taskDueDate);
+							manager.fireEvent(new PropertyDidChangeEvent<TaskWidgetData>(parent, propertyName, parentDueDate, taskDueDate));
+							recalculateParentDuration(parent, true);
+						}
+					} else if (propertyName.equals("duration")) {
 						recalculateParentDuration(parent, true);
 					}
-				} else if (propertyName.equals("dueDate")) {
-					Date parentDueDate = parent.getDueDate();
-					Date taskDueDate = (Date) newValue;
-					if (taskDueDate.after(parentDueDate)) {
-						parent.setDueDate(taskDueDate);
-						manager.fireEvent(new PropertyDidChangeEvent<TaskWidgetData>(parent, propertyName, parentDueDate, taskDueDate));
-						recalculateParentDuration(parent, true);
+				}
+				if (!owner.getDependencies().isEmpty()) {
+					Date newDueDate = null;
+					if (propertyName.equals("startDate")) {
+						newDueDate = DateUtils.rollDays((Date) newValue, owner.getDuration());
+					} else if (propertyName.equals("dueDate")) {
+						newDueDate = (Date) newValue;
 					}
-				} else if (propertyName.equals("duration")) {
-					recalculateParentDuration(parent, true);
-				}
-			}
-			if (!owner.getDependencies().isEmpty()) {
-				Date newDueDate = null;
-				if (propertyName.equals("startDate")) {
-					newDueDate = DateUtils.rollDays((Date) newValue, owner.getDuration());
-				} else if (propertyName.equals("dueDate")) {
-					newDueDate = (Date) newValue;
-				}
-				if (newDueDate != null) {
-					for (TaskWidgetData dependency : owner.getDependencies()) {
-						if (newDueDate.after(dependency.getStartDate())) {
-							Date oldDependencyStartDate = dependency.getStartDate();
-							dependency.setStartDate(newDueDate);
-							manager.fireEvent(new PropertyDidChangeEvent<TaskWidgetData>(dependency, "startDate", oldDependencyStartDate, newDueDate));
+					if (newDueDate != null) {
+						for (TaskWidgetData dependency : owner.getDependencies()) {
+							if (newDueDate.after(dependency.getStartDate())) {
+								Date oldDependencyStartDate = dependency.getStartDate();
+								dependency.setStartDate(newDueDate);
+								manager.fireEvent(new PropertyDidChangeEvent<TaskWidgetData>(dependency, "startDate", oldDependencyStartDate, newDueDate));
+							}
 						}
 					}
 				}
 			}
-		}
-	};
+		};
+	}
 
 	private void recalculateParentDuration(TaskWidgetData parent, boolean fire) {
 		Integer oldDuration = parent.getDuration();
@@ -205,25 +209,27 @@ public class GanntWidget extends Composite {
 		manager.fireEvent(new PropertyDidChangeEvent<TaskWidgetData>(parent, "duration", oldDuration, duration));
 	}
 
-	private PropertyDidChangeEventHandler<TaskWidgetData> reRenderHandler = new PropertyDidChangeEventHandler<TaskWidgetData>() {
-		@Override
-		public void onPropertyChange(TaskWidgetData owner, String propertyName, Object oldValue, Object newValue) {
-			dirtyItems.add(owner);
-			if (renderCommand == null) {
-				renderCommand = new Scheduler.ScheduledCommand() {
-					@Override
-					public void execute() {
-						for (TaskWidgetData dirty : dirtyItems) {
-							table.refresh(dirty);
+	private PropertyDidChangeEventHandler<TaskWidgetData> createRenderHandler() {
+		return new PropertyDidChangeEventHandler<TaskWidgetData>() {
+			@Override
+			public void onPropertyChange(TaskWidgetData owner, String propertyName, Object oldValue, Object newValue) {
+				dirtyItems.add(owner);
+				if (renderCommand == null) {
+					renderCommand = new Scheduler.ScheduledCommand() {
+						@Override
+						public void execute() {
+							for (TaskWidgetData dirty : dirtyItems) {
+								table.refresh(dirty);
+							}
+							dirtyItems.clear();
+							renderCommand = null;
 						}
-						dirtyItems.clear();
-						renderCommand = null;
-					}
-				};
-				Scheduler.get().scheduleFinally(renderCommand);
+					};
+					Scheduler.get().scheduleFinally(renderCommand);
+				}
 			}
-		}
-	};
+		};
+	}
 
 	Scheduler.ScheduledCommand renderCommand = null;
 	List<TaskWidgetData> dirtyItems = new LinkedList<TaskWidgetData>();

@@ -40,6 +40,7 @@ h1 {
 
 .gannt-table td {
     border-left: 1px solid #ddd;
+    position: relative;
 }
 
 .date-editor {
@@ -147,4 +148,22 @@ td.datelabel {
 
 .ContentEditableCellBlock{
     display:block;
+}
+
+.gannt-table canvas {
+    position: absolute;
+    z-index: 200;
+}
+
+.tdd, .tdur, .tprog, .tdisc, .tsd {
+    padding: 0 5px;
+}
+
+.tdsc span img {
+    margin-left:0.5em;
+    visibility:hidden;
+}
+
+.tdsc:hover span img {
+    visibility:visible;
 }

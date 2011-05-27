@@ -1,5 +1,6 @@
 package com.fb.workplan.client;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -73,6 +74,15 @@ public class gannt implements EntryPoint {
                 Set<String> dependencyIds = new HashSet<String>();
                 dependencyIds.addAll(asList(dependencies));
                 data.setDependencyIds(dependencyIds);
+
+				for (String depid: data.getDependencyIds()) {
+					TaskWidgetData dependency = idMap.get(depid);
+					if (dependency == null) {
+						orphans.add(data);
+					} else {
+						data.getDependencies().add(dependency);
+					}
+				}
             }
         }
         if (obj.containsKey("parentId")) {
@@ -91,17 +101,31 @@ public class gannt implements EntryPoint {
     }
 
     private Collection<String> asList(JSONArray dependencies) {
-		// TODO: implement dependency loading
-        return null;  //To change body of created methods use File | Settings | File Templates.
+		List<String> result = new ArrayList<String>(dependencies.size());
+		for(int i = 0; i < dependencies.size(); i++) {
+			result.add(dependencies.get(i).isString().stringValue());
+		}
+		return result;
     }
 
     private void resolveOrphans() {
         for(TaskWidgetData orphan: orphans) {
-            TaskWidgetData parentData = idMap.get(orphan.getParentId());
-            if (parentData != null) {
-                orphan.setParent(parentData);
-                parentData.getChildren().add(orphan);
-            }
+			if (StringUtils.hasText(orphan.getParentId())) {
+				TaskWidgetData parentData = idMap.get(orphan.getParentId());
+				if (parentData != null) {
+					orphan.setParent(parentData);
+					parentData.getChildren().add(orphan);
+				}
+			}
+			if (! orphan.getDependencyIds().isEmpty()) {
+				orphan.getDependencies().clear();
+				for(String depId: orphan.getDependencyIds()) {
+					TaskWidgetData dependency = idMap.get(depId);
+					if(dependency != null) {
+						orphan.getDependencies().add(dependency);
+					}
+				}
+			}
         }
     }
 
@@ -139,7 +163,7 @@ public class gannt implements EntryPoint {
 
     Map<String, TaskWidgetData> idMap = new HashMap<String, TaskWidgetData>();
 
-    List<TaskWidgetData> orphans = new LinkedList<TaskWidgetData>();
+    Set<TaskWidgetData> orphans = new HashSet<TaskWidgetData>();
     List<TaskWidgetData> all = new LinkedList<TaskWidgetData>();
     
     interface Resources extends ClientBundle {

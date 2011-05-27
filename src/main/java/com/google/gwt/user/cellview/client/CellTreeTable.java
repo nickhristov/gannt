@@ -41,11 +41,16 @@ public class CellTreeTable<T> extends Widget implements IsWidget {
 			Header<?> headerColumn = insertHeaders.get(i);
 			int renderIndex = i + insertIndex;
 			TableRowElement rowElement = ensureRow(thead, headerRow);
-			renderHeader(headerRow, renderIndex, rowElement, headerColumn);
+			renderHeader(headerRow, renderIndex, rowElement, headerColumn, true);
 		}
     }
 
-    private class RenderingCommand implements Scheduler.ScheduledCommand {
+	public void refreshHeaderRow(int headerRow) {
+		TableRowElement row = ensureRow(thead, headerRow);
+		renderHeaderRow(headerRow, row, flexHeaderRows.get(headerRow), false);
+	}
+
+	private class RenderingCommand implements Scheduler.ScheduledCommand {
         public void execute() {
             // clear state:
             deferredRenderer = null;
@@ -244,7 +249,6 @@ public class CellTreeTable<T> extends Widget implements IsWidget {
     
     private void render(TableSectionElement body, DataNode<T> renderNode,
                         int rowIndex, int columnIndex, Column<T, ?> column, int indent, boolean forceInsert) {
-        GWT.log("render - row: " + rowIndex + " column: " + columnIndex);
         TableRowElement rowElement = ensureRow(body, rowIndex);
         TableCellElement cell = ensureCell(rowElement, columnIndex, forceInsert);
         if (indent > 0 && columnIndex == 0) {
@@ -306,32 +310,33 @@ public class CellTreeTable<T> extends Widget implements IsWidget {
         int i = 0;
         for (List<? extends Header<?>> flexHeaderRow : flexHeaderRows) {
             TableRowElement element = thead.insertRow(-1);
-            renderHeaderRow(i, element, flexHeaderRow);
+            renderHeaderRow(i, element, flexHeaderRow, true);
             i++;
         }
         isRefreshing = false;
     }
 
-    protected void renderHeaderRow(int headerRow, TableRowElement element, List<? extends Header<?>> headers) {
+    protected void renderHeaderRow(int headerRow, TableRowElement element, List<? extends Header<?>> headers, boolean forceInsert) {
         int i = 0;
         for (Header<?> headerColumn : headers) {
-			renderHeader(headerRow, i, element, headerColumn);
+			renderHeader(headerRow, i, element, headerColumn, forceInsert);
             i++;
         }
     }
 
-	private void renderHeader(int headerRow, int i, TableRowElement element,  Header<?> headerColumn) {
-		TableCellElement cell = element.insertCell(i);
+	@SuppressWarnings({"unchecked"})
+	private void renderHeader(int headerRow, int i, TableRowElement element,  Header<?> headerColumn, boolean forceInsert) {
+		TableCellElement cell = ensureCell(element,i,forceInsert);
 		if (headerColumn instanceof FlexHeader) {
 			FlexHeader flexHeader = (FlexHeader) headerColumn;
 			cell.setColSpan(flexHeader.getColSpan());
 		} else {
 			cell.setColSpan(1);
 		}
-		SafeHtmlBuilder builder = new SafeHtmlBuilder();
 		Cell.Context context = new Cell.Context(headerRow, i, null);
-		headerColumn.render(context, builder);
-		cell.setInnerHTML(builder.toSafeHtml().asString());
+		Object value = headerColumn.getValue();
+		Cell rendercell = headerColumn.getCell();
+		rendercell.setValue(context, cell, value);
 	}
 
 	private void renderAllColumns() {
