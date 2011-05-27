@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.fb.workplan.client.AnchorCell;
+import com.fb.workplan.client.CanvasCell;
+import com.fb.workplan.client.CanvasCellRenderer;
 import com.fb.workplan.client.DateUtils;
 import com.fb.workplan.client.FixedCompositeCell;
 import com.fb.workplan.client.PropertyDidChangeEvent;
@@ -30,16 +32,18 @@ import static java.util.Arrays.asList;
 
 class GanntGridController {
 
-    public void insertData(TaskWidgetData node) {
-        table.addItem(node);
-    }
+	public void insertData(TaskWidgetData node) {
+		table.addItem(node);
+	}
 
-    List<Column<TaskWidgetData, ?>> detailColumns;
+	List<Column<TaskWidgetData, ?>> detailColumns;
 
-    public GanntGridController(CellTreeTable<TaskWidgetData> table, HandlerManager manager) {
-        this.table = table;
-        this.manager = manager;
-    }
+	public GanntGridController(CellTreeTable<TaskWidgetData> table, List<TaskWidgetData> displayModel, HandlerManager manager, CanvasCellRenderer<List<TaskWidgetData>> renderer) {
+		this.table = table;
+		this.displayModel = displayModel;
+		this.manager = manager;
+		this.renderer = renderer;
+	}
 
 	public Cell buildTaskCell() {
 		ContentEditableCell descriptionCell = new ContentEditableCell(true);
@@ -61,7 +65,8 @@ class GanntGridController {
 
 		return new FixedCompositeCell<TaskWidgetData>(Arrays.<HasCell<TaskWidgetData, ?>>asList(descColumn, link));
 	}
-    public void init() {
+
+	public void init() {
 		Cell taskCell = buildTaskCell();
 		final Column<TaskWidgetData, TaskWidgetData> taskColumn = new Column<TaskWidgetData, TaskWidgetData>(taskCell) {
 			@Override
@@ -69,17 +74,17 @@ class GanntGridController {
 				return object;
 			}
 		};
-        DatePickerCell startDateCell = new DatePickerCell(DateTimeFormat.getFormat(DateTimeFormat.PredefinedFormat.DATE_SHORT));
-        final Column<TaskWidgetData, Date> startDateCol = new Column<TaskWidgetData, Date>(startDateCell) {
-            @Override
-            public Date getValue(TaskWidgetData object) {
-                return object.getStartDate();
-            }
-        };
-        startDateCol.setFieldUpdater(new FieldUpdater<TaskWidgetData, Date>() {
-            public void update(int index, TaskWidgetData object, Date value) {
-                // TODO: there is a whole lot of issues here to be resolved (conflicts, etc)
-				Date oldStartDate =  object.getStartDate();
+		DatePickerCell startDateCell = new DatePickerCell(DateTimeFormat.getFormat(DateTimeFormat.PredefinedFormat.DATE_SHORT));
+		final Column<TaskWidgetData, Date> startDateCol = new Column<TaskWidgetData, Date>(startDateCell) {
+			@Override
+			public Date getValue(TaskWidgetData object) {
+				return object.getStartDate();
+			}
+		};
+		startDateCol.setFieldUpdater(new FieldUpdater<TaskWidgetData, Date>() {
+			public void update(int index, TaskWidgetData object, Date value) {
+				// TODO: there is a whole lot of issues here to be resolved (conflicts, etc)
+				Date oldStartDate = object.getStartDate();
 				object.setStartDate(value);
 				if (adjustDates) {
 					object.setDueDate(DateUtils.rollDays(object.getStartDate(), object.getDuration()));
@@ -88,46 +93,46 @@ class GanntGridController {
 				}
 
 				GwtEvent event = new PropertyDidChangeEvent<TaskWidgetData>(object, "startDate", oldStartDate, value);
-                manager.fireEvent(event);
-            }
-        });
+				manager.fireEvent(event);
+			}
+		});
 
-        DatePickerCell dueDateCell = new DatePickerCell(DateTimeFormat.getFormat(DateTimeFormat.PredefinedFormat.DATE_SHORT));
-        final Column<TaskWidgetData, Date> dueDateCol = new Column<TaskWidgetData, Date>(dueDateCell) {
-            @Override
-            public Date getValue(TaskWidgetData object) {
-                return object.getDueDate();
-            }
-        };
+		DatePickerCell dueDateCell = new DatePickerCell(DateTimeFormat.getFormat(DateTimeFormat.PredefinedFormat.DATE_SHORT));
+		final Column<TaskWidgetData, Date> dueDateCol = new Column<TaskWidgetData, Date>(dueDateCell) {
+			@Override
+			public Date getValue(TaskWidgetData object) {
+				return object.getDueDate();
+			}
+		};
 
-        dueDateCol.setFieldUpdater(new FieldUpdater<TaskWidgetData, Date>() {
-            public void update(int index, TaskWidgetData object, Date value) {
-                // TODO: there is a whole lot of issues here to be resolved (conflicts, etc)
+		dueDateCol.setFieldUpdater(new FieldUpdater<TaskWidgetData, Date>() {
+			public void update(int index, TaskWidgetData object, Date value) {
+				// TODO: there is a whole lot of issues here to be resolved (conflicts, etc)
 				Date oldDueDate = object.getDueDate();
 				object.setDueDate(value);
 
 				if (adjustDates) {
-					object.setStartDate(DateUtils.rollDays(value, - object.getDuration()));
+					object.setStartDate(DateUtils.rollDays(value, -object.getDuration()));
 				} else {
 					object.setDuration(DateUtils.getDaysDiff(object.getStartDate(), object.getDueDate()));
 				}
 				GwtEvent event = new PropertyDidChangeEvent<TaskWidgetData>(object, "dueDate", oldDueDate, value);
-                manager.fireEvent(event);
-            }
-        });
+				manager.fireEvent(event);
+			}
+		});
 
-        ContentEditableCell durationCell = new ContentEditableCell(false);
-        final Column<TaskWidgetData, String> durationColumn = new Column<TaskWidgetData, String>(durationCell) {
-            @Override
-            public String getValue(TaskWidgetData object) {
-                return String.valueOf(object.getDuration());
-            }
-        };
+		ContentEditableCell durationCell = new ContentEditableCell(false);
+		final Column<TaskWidgetData, String> durationColumn = new Column<TaskWidgetData, String>(durationCell) {
+			@Override
+			public String getValue(TaskWidgetData object) {
+				return String.valueOf(object.getDuration());
+			}
+		};
 
-        durationColumn.setFieldUpdater(new FieldUpdater<TaskWidgetData, String>() {
-            public void update(int index, TaskWidgetData object, String value) {
-                // TODO: there is a whole lot of issues here to be resolved (conflicts, etc)
-				int newDuration =  Integer.parseInt(value);
+		durationColumn.setFieldUpdater(new FieldUpdater<TaskWidgetData, String>() {
+			public void update(int index, TaskWidgetData object, String value) {
+				// TODO: there is a whole lot of issues here to be resolved (conflicts, etc)
+				int newDuration = Integer.parseInt(value);
 				int oldDuration = object.getDuration();
 				object.setDuration(newDuration);
 
@@ -135,68 +140,68 @@ class GanntGridController {
 					object.setDueDate(DateUtils.rollDays(object.getStartDate(), newDuration));
 				}
 				GwtEvent event = new PropertyDidChangeEvent<TaskWidgetData>(object, "duration", oldDuration, newDuration);
-                manager.fireEvent(event);
-            }
-        });
+				manager.fireEvent(event);
+			}
+		});
 
 
-        final Column<TaskWidgetData, String> progressColumn = new Column<TaskWidgetData, String>(durationCell) {
-            @Override
-            public String getValue(TaskWidgetData object) {
-                return String.valueOf(object.getProgress());
-            }
-        };
+		final Column<TaskWidgetData, String> progressColumn = new Column<TaskWidgetData, String>(durationCell) {
+			@Override
+			public String getValue(TaskWidgetData object) {
+				return String.valueOf(object.getProgress());
+			}
+		};
 
-        progressColumn.setFieldUpdater(new FieldUpdater<TaskWidgetData, String>() {
-            public void update(int index, TaskWidgetData object, String value) {
+		progressColumn.setFieldUpdater(new FieldUpdater<TaskWidgetData, String>() {
+			public void update(int index, TaskWidgetData object, String value) {
 				int newProgress = Integer.parseInt(value);
 				int oldProgress = object.getProgress();
 				object.setProgress(newProgress);
 				GwtEvent event = new PropertyDidChangeEvent<TaskWidgetData>(object, "progress", oldProgress, newProgress);
-                manager.fireEvent(event);
-            }
-        });
-        
-        detailColumns = new ArrayList<Column<TaskWidgetData, ?>>(3);
-        detailColumns.add(taskColumn);
-        detailColumns.add(startDateCol);
-        detailColumns.add(dueDateCol);
-        detailColumns.add(durationColumn);
-        detailColumns.add(progressColumn);
+				manager.fireEvent(event);
+			}
+		});
 
-        detailColumns = Collections.unmodifiableList(detailColumns);    // freeze these
+		detailColumns = new ArrayList<Column<TaskWidgetData, ?>>(3);
+		detailColumns.add(taskColumn);
+		detailColumns.add(startDateCol);
+		detailColumns.add(dueDateCol);
+		detailColumns.add(durationColumn);
+		detailColumns.add(progressColumn);
 
-        table.setStyleProvider(new CellStyleProvider<TaskWidgetData>() {
+		detailColumns = Collections.unmodifiableList(detailColumns);	// freeze these
 
-            public String[] getStyleNames(TaskWidgetData data, Column<TaskWidgetData, ?> taskWidgetDataColumn) {
-                if (taskWidgetDataColumn == taskColumn) {
-                    return DESC_STYLE_CLASS;
-                }
-                if (taskWidgetDataColumn == startDateCol) {
-                    return SDATE_STYLE_CLASS;
-                }
-                if (taskWidgetDataColumn == dueDateCol) {
-                    return DDATE_STYLE_CLASS;
-                }
-                if (taskWidgetDataColumn == durationColumn) {
-                    return DUR_STYLE_CLASS;
-                }
-                if (taskWidgetDataColumn == progressColumn) {
-                    return PROGRESS_STYLE_CLASS;
-                }
-                return null;
-            }
-        });
-        // set up standard headers
-        final TextCell standardHeaderCell = new TextCell();
-        final List<Header<?>> TOP_ROW = new ArrayList<Header<?>>(2);
-        TOP_ROW.addAll(asList(
+		table.setStyleProvider(new CellStyleProvider<TaskWidgetData>() {
+
+			public String[] getStyleNames(TaskWidgetData data, Column<TaskWidgetData, ?> taskWidgetDataColumn) {
+				if (taskWidgetDataColumn == taskColumn) {
+					return DESC_STYLE_CLASS;
+				}
+				if (taskWidgetDataColumn == startDateCol) {
+					return SDATE_STYLE_CLASS;
+				}
+				if (taskWidgetDataColumn == dueDateCol) {
+					return DDATE_STYLE_CLASS;
+				}
+				if (taskWidgetDataColumn == durationColumn) {
+					return DUR_STYLE_CLASS;
+				}
+				if (taskWidgetDataColumn == progressColumn) {
+					return PROGRESS_STYLE_CLASS;
+				}
+				return null;
+			}
+		});
+		// set up standard headers
+		final TextCell standardHeaderCell = new TextCell();
+		final List<Header<?>> TOP_ROW = new ArrayList<Header<?>>(2);
+		TOP_ROW.addAll(asList(
 				new FlexHeader<String>(standardHeaderCell, 5, "Description"),
 				new FlexHeader<String>(standardHeaderCell, "Calendar")
 		));
 
-        final List<Header<?>> SECOND_ROW = new ArrayList<Header<?>>();
-        SECOND_ROW.addAll(asList(
+		final List<Header<?>> SECOND_ROW = new ArrayList<Header<?>>();
+		SECOND_ROW.addAll(asList(
 				new FlexHeader<String>(standardHeaderCell, "Task"),
 				new FlexHeader<String>(standardHeaderCell, "Start Date"),
 				new FlexHeader<String>(standardHeaderCell, "Due Date"),
@@ -204,22 +209,32 @@ class GanntGridController {
 				new FlexHeader<String>(standardHeaderCell, "Progress")
 		));
 
-        table.addHeaderRow(TOP_ROW);
-        table.addHeaderRow(SECOND_ROW);
+		final List<Header<?>> CANVAS_ROW = new ArrayList<Header<?>>();
 
-        for (Column<TaskWidgetData, ?> column : detailColumns) {
-            table.addColumn(column);
-        }
-    }
+		CanvasCell<List<TaskWidgetData>> canvasCell = new CanvasCell<List<TaskWidgetData>>(renderer);
 
-    private CellTreeTable<TaskWidgetData> table;
-    private HandlerManager manager;
+		CANVAS_ROW.addAll(asList(new FlexHeader<String>(standardHeaderCell, 5, ""), new FlexHeader<List<TaskWidgetData>>(canvasCell, displayModel)));
 
-    private static final String[] DESC_STYLE_CLASS = { "tdsc" };
-    private static final String[] SDATE_STYLE_CLASS = { "tsd" };
-    private static final String[] DDATE_STYLE_CLASS = { "tdd" };
-    private static final String[] PROGRESS_STYLE_CLASS = { "tprog" };
-    private static final String[] DUR_STYLE_CLASS = { "tdur" };
+		table.addHeaderRow(CANVAS_ROW);
+		table.addHeaderRow(TOP_ROW);
+		table.addHeaderRow(SECOND_ROW);
+
+		for (Column<TaskWidgetData, ?> column : detailColumns) {
+			table.addColumn(column);
+		}
+	}
+
+	private CellTreeTable<TaskWidgetData> table;
+	private final List<TaskWidgetData> displayModel;
+	private HandlerManager manager;
+	private final CanvasCellRenderer<List<TaskWidgetData>> renderer;
+
+	private static final String[] DESC_STYLE_CLASS = {"tdsc"};
+	private static final String[] SDATE_STYLE_CLASS = {"tsd"};
+	private static final String[] DDATE_STYLE_CLASS = {"tdd"};
+	private static final String[] PROGRESS_STYLE_CLASS = {"tprog"};
+	private static final String[] DUR_STYLE_CLASS = {"tdur"};
 
 	private boolean adjustDates = true;
+
 }
