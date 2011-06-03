@@ -43,7 +43,7 @@ public class DateUtils {
 		ArrayList<Date> result = new ArrayList<Date>(31);
 		while(tdate.before(nextMonth)) {
 			result.add(tdate);
-			tdate = rollMonth(tdate, 1);
+			tdate = rollDays(tdate, 1);
 		}
 		return result;
 	}

@@ -13,7 +13,6 @@ import java.util.Set;
 import com.fb.workplan.client.release.GanntWidget;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
@@ -26,8 +25,6 @@ public class gannt implements EntryPoint {
 
     public void onModuleLoad() {
        GanntWidget widget = new GanntWidget();
-        widget.setWidth("90%");
-        widget.getElement().getStyle().setMargin(2, Style.Unit.EM);
         createModel(widget);
         RootPanel.get().add(widget);
     }

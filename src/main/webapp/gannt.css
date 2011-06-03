@@ -94,7 +94,8 @@ h1 {
 }
 
 
-.gannt-table tr td * {
+.gannt-table tbody tr td {
+    padding: 0;
 }
 
 td.datelabel {
@@ -150,12 +151,22 @@ td.datelabel {
     display:block;
 }
 
+.ContentEditableCellBlock, .ContentEditableCellInline {
+    outline: none;
+    height: auto !important;
+    -webkit-user-modify: read-write;
+    word-wrap: break-word;
+    -webkit-nbsp-mode: space;
+    -webkit-line-break: after-white-space;
+    padding-left: 2pt;
+    padding-right: 2pt;
+}
 .gannt-table canvas {
     position: absolute;
     z-index: 200;
 }
 
-.tdd, .tdur, .tprog, .tdisc, .tsd {
+.tdd, .tsd {
     padding: 0 5px;
 }
 
@@ -166,4 +177,30 @@ td.datelabel {
 
 .tdsc:hover span img {
     visibility:visible;
+}
+
+.tdsc img {
+    float:right;
+}
+.tdsc {
+    min-width: 600pt;
+}
+
+.gannt-table thead * {
+    font-weight: bold;
+    padding-left: 3pt;
+    padding-right: 3pt;
+    white-space: nowrap;
+}
+
+.gannt-table tbody tr {
+    border-top: 1px solid #ddd;
+}
+
+.gannt-table tbody tr {
+    border-top: 1px solid #ddd;
+}
+
+.ContentEditableCellBlock:focus, .ContentEditableCellInline:focus {
+    border: 2px solid #7192E8;
 }

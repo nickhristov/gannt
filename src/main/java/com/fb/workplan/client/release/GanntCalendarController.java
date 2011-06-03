@@ -13,6 +13,7 @@ import com.fb.workplan.client.PropertyDidChangeEventHandler;
 import com.fb.workplan.client.TaskWidgetData;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.TextCell;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.cellview.client.CellTreeTable;
 import com.google.gwt.user.cellview.client.Column;
@@ -69,8 +70,8 @@ class GanntCalendarController {
 				numMonthsToInsert = DateUtils.getMonthDifference(startMonth, currentMinMonth);
 			} else if (dueDate.after(currentMaxMonth)) {
 				startMonth = DateUtils.rollMonth(currentMaxMonth, 1);
-				numMonthsToInsert = DateUtils.getMonthDifference(startMonth, dueDate);
-				insertedColumn = renderedMonths.size() - 1;
+				numMonthsToInsert = DateUtils.getMonthDifference(startMonth, dueDate) + 1;
+				insertedColumn = renderedMonths.size();
 			} else {
 				return;	// no change in calendar dates
 			}
@@ -88,6 +89,8 @@ class GanntCalendarController {
 	private void insertColumn(int index, Date startDate, int numMonthsToInsert) {
 		List<Header<?>> wrapper = new ArrayList<Header<?>>();
 		int k = 0;
+
+		int numDetailCells = getNumPrecedingDetailCells(startDate);
 		for (int i = 0; i < numMonthsToInsert; i++) {
 			int insertionIndex = index + i;
 			Date month = DateUtils.rollMonth(startDate, i);
@@ -103,14 +106,27 @@ class GanntCalendarController {
 			wrapper.clear();
 			wrapper.add(monthHeader);
 
+			GWT.log("inserting top header at: " + (insertionIndex+1));
+			GWT.log("inserting detail header at: " + (numDetailCells +5));
+			
 			table.insertHeaders(TOP_ROW, insertionIndex + 1, wrapper);
-			table.insertHeaders(DETAIL_ROW, insertionIndex + 5, breakdownHeaders);
+			table.insertHeaders(DETAIL_ROW, numDetailCells + 5, breakdownHeaders);
 
 			for (Column<TaskWidgetData, TaskWidgetData> column : columns) {
-				table.insertColumn(insertionIndex + 5 + k, column);
+				table.insertColumn(numDetailCells + 5 + k, column);
 				k++;
 			}
 		}
+	}
+
+	private int getNumPrecedingDetailCells(Date endDate) {
+		Date startDate = renderedMonths.get(0);
+		int sum = 0;
+		while(startDate.before(endDate)) {
+			sum += getMonthlyDateBreakdowns(startDate).size();
+ 			startDate = DateUtils.rollMonth(startDate, 1);
+		}
+		return sum;
 	}
 
 	private void rebuildCalendarTable() {
@@ -260,6 +276,10 @@ class GanntCalendarController {
 		return result;
 	}
 
+	public void setChartType(ChartType selectionType) {
+		chartType = selectionType;
+	}
+
 	private class SimpleTaskColumn extends Column<TaskWidgetData, TaskWidgetData> {
 		public SimpleTaskColumn(Cell<TaskWidgetData> taskWidgetDataCell) {
 			super(taskWidgetDataCell);
@@ -271,7 +291,7 @@ class GanntCalendarController {
 		}
 	}
 
-	private final ChartType chartType;
+	private ChartType chartType;
 	private final CellTreeTable<TaskWidgetData> table;
 	private final List<TaskWidgetData> displayModel;
 	private final List<Date> renderedMonths;

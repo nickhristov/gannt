@@ -14,11 +14,16 @@ import com.fb.workplan.client.TaskWidgetData;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.cellview.client.CellTreeTable;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -64,6 +69,7 @@ public class GanntWidget extends Composite {
 	FlowPanel wrapperPanel;
 	Map<String, Element> taskElementMap;
 	final ElementMapper elementMapper;
+	final ListBox calendarDropDown;
 
 	@SuppressWarnings({"unchecked"})
 	public GanntWidget() {
@@ -72,16 +78,46 @@ public class GanntWidget extends Composite {
 		manager = new HandlerManager(this);
 		taskElementMap = new HashMap<String, Element>();
 		elementMapper = new InnerMapElementMapper();
+		calendarDropDown = new ListBox();
 
 		GanntCanvasRenderer canvasRenderer = new GanntCanvasRenderer(table, taskElementMap);
 		detailsController = new GanntGridController(table, displayModel, manager, canvasRenderer);
 		calendarController = new GanntCalendarController(table, displayModel, manager, elementMapper);
+		initListBox();
 		wrapperPanel = new FlowPanel();
 		wrapperPanel.add(table);
+
+		FlowPanel calendarPanel = new FlowPanel();
+		calendarPanel.add(new InlineLabel("Calendar setting:"));
+		calendarPanel.add(calendarDropDown);
+		calendarPanel.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
+		calendarPanel.getElement().getStyle().setTop(0, Style.Unit.EM);
+		calendarPanel.getElement().getStyle().setLeft(2, Style.Unit.EM);
 		initWidget(wrapperPanel);
+		wrapperPanel.add(calendarPanel);
+		wrapperPanel.getElement().getStyle().setPadding(2, Style.Unit.EM);
+		wrapperPanel.getElement().getStyle().setPosition(Style.Position.RELATIVE);
 
 		manager.addHandler(PropertyDidChangeEvent.getType(), createUpdateDependenciesHandler());
 		manager.addHandler(PropertyDidChangeEvent.getType(), createRenderHandler());
+	}
+
+	private void initListBox() {
+		// TODO: i18n
+		calendarDropDown.addItem("Monthly", ChartType.MONTHLY.name());
+		calendarDropDown.addItem("Weekly", ChartType.WEEKLY.name());
+		calendarDropDown.addItem("Daily", ChartType.DAILY.name());
+
+		calendarDropDown.addChangeHandler(new ChangeHandler() {
+			@Override
+			public void onChange(ChangeEvent event) {
+				String selectionName = calendarDropDown.getValue(calendarDropDown.getSelectedIndex());
+				ChartType selectionType = ChartType.valueOf(selectionName);
+				calendarController.setChartType(selectionType);
+				calendarController.updateCalendar();
+			}
+		});
+
 	}
 
 	protected void initWidget(Widget table) {

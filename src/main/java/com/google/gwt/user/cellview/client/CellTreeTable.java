@@ -466,17 +466,16 @@ public class CellTreeTable<T> extends Widget implements IsWidget {
             DataNode<T> node = traverseToIndex(tr.getSectionRowIndex());
             int columnIndex = tableCell.getCellIndex();
             Column<T, ?> column = columns.get(columnIndex);
-            if (cellConsumesEventType(column.getCell(), eventType)) {
-                Cell.Context context = new Cell.Context(tr.getSectionRowIndex(), columnIndex, "k" + columnIndex);
-                if (columnIndex == 0 && isCollapserElement(target) && eventType.equals("click")) {
-                    node.setExpanded(!node.isExpanded());
-                    renderColumnAtIndex(0, columns.get(0), true, false);
-                    handleRowBelowNode(section, node, tr.getSectionRowIndex());
-                } else {
-                    DivElement wrapper = getWrapper(tableCell);
-                    fireEventToCell(event, wrapper, node.getValue(), context, columns.get(columnIndex));
-                }
-            }
+			if (columnIndex == 0 && isCollapserElement(target) && eventType.equals("click")) {
+				node.setExpanded(!node.isExpanded());
+				renderColumnAtIndex(0, columns.get(0), true, false);
+				handleRowBelowNode(section, node, tr.getSectionRowIndex());
+			} else if (cellConsumesEventType(column.getCell(), eventType)) {
+				Cell.Context context = new Cell.Context(tr.getSectionRowIndex(), columnIndex, "k" + columnIndex);
+				DivElement wrapper = getWrapper(tableCell);
+				fireEventToCell(event, wrapper, node.getValue(), context, columns.get(columnIndex));
+
+			}
         }
     }
 

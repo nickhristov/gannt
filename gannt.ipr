@@ -380,6 +380,14 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/testng/testng/5.9/testng-5.9-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="validation api">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../../gwt-2.4.0.beta/validation-api-1.0.0.GA-sources.jar!/" />
+        <root url="jar://$PROJECT_DIR$/../../gwt-2.4.0.beta/validation-api-1.0.0.GA.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
   </component>
 </project>
 
