@@ -1,7 +1,6 @@
 package com.fb.workplan.client;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.fb.workplan.client.release.GanntWidget;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.json.client.JSONArray;
@@ -125,38 +123,6 @@ public class gannt implements EntryPoint {
 			}
         }
     }
-
-    private TaskWidgetData createTask(String id,
-                                  String shortDescription,
-                                  String dueDate,
-                                  int duration,
-                                  String[] dependencies,
-                                  String parentTaskId) {
-        TaskWidgetData data = new TaskWidgetData();
-        data.setId(id);
-        data.setDescription(shortDescription);
-        data.setDueDate(DateFormatUtils.parse(dueDate));
-        data.setDuration(duration);
-        if (dependencies != null && dependencies.length > 0) {
-            Set<String> dependencyIds = new HashSet<String>();
-            dependencyIds.addAll(Arrays.asList(dependencies));
-            data.setDependencyIds(dependencyIds);
-        }
-        data.setParentId(parentTaskId);
-        idMap.put(data.getId(), data);
-        if (parentTaskId != null) {
-            TaskWidgetData parent = idMap.get(parentTaskId);
-            data.setParent(parent);
-            if (parent != null) {
-                parent.getChildren().add(data);
-            } else {
-                orphans.add(data);
-            }
-        }
-        return data;
-    }
-
-    private static final String[] EMPTY_DEPENDENCY = new String[]{};
 
     Map<String, TaskWidgetData> idMap = new HashMap<String, TaskWidgetData>();
 

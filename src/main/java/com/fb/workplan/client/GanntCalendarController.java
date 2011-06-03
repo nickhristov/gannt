@@ -1,4 +1,4 @@
-package com.fb.workplan.client.release;
+package com.fb.workplan.client;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,11 +6,6 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.fb.workplan.client.DateFormatUtils;
-import com.fb.workplan.client.DateUtils;
-import com.fb.workplan.client.PropertyDidChangeEvent;
-import com.fb.workplan.client.PropertyDidChangeEventHandler;
-import com.fb.workplan.client.TaskWidgetData;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.core.client.GWT;

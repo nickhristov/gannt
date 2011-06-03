@@ -7,13 +7,13 @@
     <groupId>com.fb.workplan</groupId>
     <artifactId>gannt</artifactId>
     <packaging>war</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <name>com.fb.workplan.gannt</name>
+    <version>1.0</version>
+    <name>gannt</name>
 
     <properties>
         <!-- Convenience property to set the GWT version -->
-        <gwtVersion>2.3.0</gwtVersion>
-
+        <gwt.version>2.3.0</gwt.version>
+        
         <maven.compiler.source>1.6</maven.compiler.source>
         <maven.compiler.target>1.6</maven.compiler.target>
     </properties>
@@ -22,19 +22,19 @@
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-servlet</artifactId>
-            <version>${gwtVersion}</version>
+            <version>${gwt.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-user</artifactId>
-            <version>${gwtVersion}</version>
+            <version>${gwt.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-dev</artifactId>
-            <version>${gwtVersion}</version>
+            <version>${gwt.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -42,7 +42,6 @@
             <artifactId>testng</artifactId>
             <version>5.9</version>
         </dependency>
-
 
         <dependency>
             <groupId>com.google.guava</groupId>

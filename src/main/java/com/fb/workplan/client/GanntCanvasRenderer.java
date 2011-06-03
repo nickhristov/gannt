@@ -1,12 +1,10 @@
-package com.fb.workplan.client.release;
+package com.fb.workplan.client;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.fb.workplan.client.CanvasCellRenderer;
-import com.fb.workplan.client.TaskWidgetData;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.core.client.GWT;
@@ -32,11 +30,11 @@ class GanntCanvasRenderer implements CanvasCellRenderer<List<TaskWidgetData>> {
 
 		Context2d context2d = canvasElement.getContext2d();
 		for (Point[] tuple : dependencies) {
-			render(canvasElement, context2d, tuple, width, height);
+			render(context2d, tuple, width, height);
 		}
 	}
 
-	private void render(CanvasElement canvasElement, Context2d context, Point[] tuple, int width, int height) {
+	private void render(Context2d context, Point[] tuple, int width, int height) {
 		// FIXME: the client height of the floater elements should be pulled from the CSS
 		context.clearRect(0, 0, height, width);
 		context.setStrokeStyle("#666");

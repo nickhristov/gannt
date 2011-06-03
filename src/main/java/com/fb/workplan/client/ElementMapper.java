@@ -1,6 +1,5 @@
-package com.fb.workplan.client.release;
+package com.fb.workplan.client;
 
-import com.fb.workplan.client.TaskWidgetData;
 import com.google.gwt.dom.client.Element;
 
 public interface ElementMapper {

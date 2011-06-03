@@ -39,24 +39,6 @@ public class TaskWidgetData implements Comparable<TaskWidgetData> {
         this.progress = progress;
     }
 
-    private final MFunction<TaskWidgetData, Integer> getDurationFunc = new  MFunction<TaskWidgetData, Integer>() {
-        public Integer apply( TaskWidgetData input) {
-            return input.getDuration();
-        }
-    } ;
-    private final MFunction<TaskWidgetData, Date> getStartDateFunc = new MFunction<TaskWidgetData, Date>() {
-        public Date apply(TaskWidgetData input) {
-            return input.getStartDate();
-        }
-    };
-
-    private final MFunction<TaskWidgetData, Date> getEndDateFunc = new MFunction<TaskWidgetData, Date>() {
-        public Date apply(TaskWidgetData input) {
-            return input.getDueDate();
-        }
-    };
-
-
     public Set<String> getDependencyIds() {
         return dependencyIds;
     }

@@ -1,4 +1,4 @@
-package com.fb.workplan.client.release;
+package com.fb.workplan.client;
 
 import java.util.Date;
 import java.util.HashSet;
